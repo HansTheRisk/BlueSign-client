@@ -27,7 +27,8 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".ResetActivity"></activity>
+        <activity android:name=".ResetActivity" />
+        <activity android:name=".RegisterFaceActivity"></activity>
     </application>
 
 </manifest>
