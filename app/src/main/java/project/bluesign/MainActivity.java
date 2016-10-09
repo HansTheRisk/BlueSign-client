@@ -14,7 +14,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (getSharedPreferences("UserInfo", 0).getString("id", null) == null)
+        if (getSharedPreferences("UserInfo", 0).contains("id"))
+            (findViewById(R.id.btnRegister)).setEnabled(false);
+        else
             (findViewById(R.id.btnLogin)).setEnabled(false);
     }
 
@@ -24,5 +26,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void register(View view) {
         startActivity(new Intent(this, RegisterActivity.class));
+    }
+
+    public void reset(View view) {
+        startActivity(new Intent(this, ResetActivity.class));
     }
 }
