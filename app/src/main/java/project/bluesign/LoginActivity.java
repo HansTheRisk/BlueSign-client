@@ -26,8 +26,6 @@ public class LoginActivity extends AppCompatActivity implements SurfaceHolder.Ca
 
         surfaceView = (SurfaceView) findViewById(R.id.photoPreview);
         surfaceHolder = surfaceView.getHolder();
-        surfaceHolder.setFixedSize(350, 350);
-
         surfaceHolder.addCallback(this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
     }
@@ -40,7 +38,10 @@ public class LoginActivity extends AppCompatActivity implements SurfaceHolder.Ca
             Camera.Parameters param;
 
             param = camera.getParameters();
-            param.setPreviewSize(250, 275);
+            param.getSupportedPreviewSizes().get(1);
+//            param.setPreviewSize(param.getSupportedPreviewSizes().get(1).width, param.getSupportedPreviewSizes().get(1).height);
+            surfaceView.getHolder().setFixedSize(500, 500);
+
             camera.setParameters(param);
 
             try {
@@ -49,8 +50,6 @@ public class LoginActivity extends AppCompatActivity implements SurfaceHolder.Ca
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-
             Toast.makeText(this, "Camera Active!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -63,7 +62,6 @@ public class LoginActivity extends AppCompatActivity implements SurfaceHolder.Ca
         try {
             camera.stopPreview();
         }
-
         catch (Exception e) {
         }
 

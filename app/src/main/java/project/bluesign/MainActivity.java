@@ -14,6 +14,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        checkSettings();
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        setContentView(R.layout.activity_main);
+        checkSettings();
+    }
+
+    private void checkSettings() {
         if (getSharedPreferences("UserInfo", 0).contains("id"))
             (findViewById(R.id.btnRegister)).setEnabled(false);
         else
