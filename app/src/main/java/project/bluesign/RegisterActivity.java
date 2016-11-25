@@ -1,5 +1,6 @@
 package project.bluesign;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -25,8 +26,10 @@ public class RegisterActivity extends AppCompatActivity {
             id.setError("ID cannot be empty");
         else if (TextUtils.isEmpty(pin.getText().toString()))
             pin.setError("PIN cannot be empty");
-        else
-            saveId(id.getText().toString());
+        else if(saveId(id.getText().toString())) {
+            startActivity(new Intent(this, RegisterFaceActivity.class));
+        }
+
     }
 
     private boolean verify() {

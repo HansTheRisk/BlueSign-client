@@ -1,13 +1,14 @@
 package project.bluesign;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
-public class RegisterFaceActivity extends AppCompatActivity {
+import com.qualcomm.snapdragon.sdk.face.FacialProcessing;
 
-    @Override
+public class RegisterFaceActivity extends CameraPreviewActivity {
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_face);
+        super.onCreate(savedInstanceState, R.layout.activity_register_face);
+        boolean isSupported = FacialProcessing.isFeatureSupported(FacialProcessing.FEATURE_LIST.FEATURE_FACIAL_PROCESSING);
+        Toast.makeText(this, String.valueOf(isSupported), Toast.LENGTH_SHORT).show();
     }
 }
