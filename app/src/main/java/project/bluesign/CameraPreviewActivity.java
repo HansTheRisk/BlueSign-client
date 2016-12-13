@@ -26,11 +26,6 @@ public class CameraPreviewActivity extends AppCompatActivity implements SurfaceH
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-        facialProcessing = (FacialProcessing) FacialProcessing.getInstance();
-
-//        facialProcessing.setRecognitionConfidence(58);
-//
-//        facialProcessing.setProcessingMode(FacialProcessing.FP_MODES.FP_MODE_STILL);
     }
 
     private void startPreview() {
@@ -76,7 +71,14 @@ public class CameraPreviewActivity extends AppCompatActivity implements SurfaceH
     }
 
     public FacialProcessing getFacialProcessing() {
+        facialProcessing = (FacialProcessing) FacialProcessing.getInstance();
+        facialProcessing.setRecognitionConfidence(58);
+        facialProcessing.setProcessingMode(FacialProcessing.FP_MODES.FP_MODE_STILL);
         return facialProcessing;
+    }
+
+    public SurfaceHolder getSurfaceHolder() {
+        return surfaceHolder;
     }
 
     public Camera getCamera() {
