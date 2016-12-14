@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 
+import com.qualcomm.snapdragon.sdk.face.FacialProcessing;
+
 public class RegisterActivity extends AppCompatActivity {
 
     @Override
@@ -26,17 +28,29 @@ public class RegisterActivity extends AppCompatActivity {
             id.setError("ID cannot be empty");
         else if (TextUtils.isEmpty(pin.getText().toString()))
             pin.setError("PIN cannot be empty");
-        else if(saveId(id.getText().toString())) {
-            startActivity(new Intent(this, RegisterFaceActivity.class));
+        else if(saveId(id.getText().toString()) && savePin(pin.getText().toString())) { //Insert ID and PIN check / API call
+            if (FacialProcessing.isFeatureSupported(FacialProcessing.FEATURE_LIST.FEATURE_FACIAL_PROCESSING)) {
+                startActivity(new Intent(this, RegisterFaceActivity.class));
+                finish();
+            }
+            else {
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+            }
         }
 
     }
 
     private boolean verify() {
+        // Placeholder for the API call
         return true;
     }
 
     private boolean saveId(String id) {
         return getSharedPreferences("UserInfo", 0).edit().putString("id", id).commit();
+    }
+
+    private boolean savePin(String pin) {
+        return getSharedPreferences("UserInfo", 0).edit().putString("pin", pin).commit();
     }
 }

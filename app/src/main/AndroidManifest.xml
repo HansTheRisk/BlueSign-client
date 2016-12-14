@@ -32,7 +32,6 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ResetActivity" />
         <activity android:name=".RegisterFaceActivity" />
-        <activity android:name=".chuj"></activity>
     </application>
 
 </manifest>

@@ -1,32 +1,22 @@
 package project.bluesign;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.qualcomm.snapdragon.sdk.face.FaceData;
 import com.qualcomm.snapdragon.sdk.face.FacialProcessing;
-
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.EnumSet;
-
-import static android.widget.Toast.LENGTH_SHORT;
+import com.qualcomm.snapdragon.sdk.face.FacialProcessingConstants;
 
 public class RegisterFaceActivity extends CameraPreviewActivity {
 
     private FacialProcessing processor;
+    private int faces = 0;
 
     Camera.ShutterCallback shutterCallback = new Camera.ShutterCallback() {
 
@@ -72,33 +62,32 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
     Camera.PictureCallback testCallback = new Camera.PictureCallback() {
 
         public void onPictureTaken(byte[] data, Camera camera) {
-
-//            FileOutputStream stream = null;
-//            File mediaStorageDir = new File(Environment.DIRECTORY_PICTURES);
-//            try {
-//                stream = new FileOutputStream(mediaStorageDir);
-//                stream.write(data);
-//                stream.close();
-//            }
-//            catch (FileNotFoundException e) {
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-
-
-            // Use this image data for implementing the Facial Recognition features.
-
             testPicture(data);
-
         }
     };
 
     public void testPicture(byte[] data) {
         Bitmap storedBitmap = BitmapFactory.decodeByteArray(data, 0, data.length, null);
         processor.setBitmap(storedBitmap);
-        processor.getFaceData();
-        Toast.makeText(this, Integer.toString(processor.getNumFaces()), Toast.LENGTH_SHORT).show();
+        if(processor.getFaceData() != null) {
+            if(processor.getFaceData().length == 1) {
+                FaceData[] faceData = processor.getFaceData();
+                int faceId = faceData[0].getPersonId();
+                if (faceId == FacialProcessingConstants.FP_PERSON_NOT_REGISTERED) {
+                    Toast.makeText(this, "Face not recognised!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(this, "Face recognised!", Toast.LENGTH_SHORT).show();
+                    (findViewById(R.id.btnAccept)).setEnabled(true);
+                }
+            }
+            else {
+                Toast.makeText(this, "More than one face detected!", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else {
+            Toast.makeText(this, "No faces detected!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void registerPicture(byte[] data){
@@ -125,35 +114,36 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
 
 
         processor.setBitmap(storedBitmap);
-        if(processor.getFaceData() == null) {
-            Toast.makeText(this, "null", Toast.LENGTH_SHORT).show();
+        if(processor.getFaceData() != null) {
+            if(processor.getFaceData().length == 1) {
+                FaceData[] faceData = processor.getFaceData();
+                int faceId = faceData[0].getPersonId();
+                if (faceId == FacialProcessingConstants.FP_PERSON_NOT_REGISTERED) {
+                    processor.addPerson(0);
+                }
+                else {
+                    processor.updatePerson(faceId, 0);
+                }
+                faces++;
+                Toast.makeText(this, "Photo successfully added!", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(this, "More than one face detected!", Toast.LENGTH_SHORT).show();
+            }
         }
-        else if (processor.getFaceData() != null) {
-            Toast.makeText(this, "not null", Toast.LENGTH_SHORT).show();
-            processor.addPerson(0);
-            Toast.makeText(this, Integer.toString(processor.getNumFaces()), Toast.LENGTH_SHORT).show();
-            int x = 1;
-            int y = 2;
-            x = y;
+        else {
+            Toast.makeText(this, "No faces detected!", Toast.LENGTH_SHORT).show();
         }
-
-
-//        processor.setFrame(data, previewSize.width, previewSize.height, true, FacialProcessing.PREVIEW_ROTATION_ANGLE.ROT_90);
-//        Toast.makeText(this, processor.getNumFaces(), Toast.LENGTH_SHORT).show();
-//        processor.
-////        processor.addPerson(1);
-//        FaceData[] faceArray = processor.getFaceData();
-//        int index = faceArray.length;
-//        if (processor.getFaceData() == null)
-//            Toast.makeText(this, "empty", Toast.LENGTH_SHORT).show();
-//        else
-//            Toast.makeText(this, processor.getFaceData().length, Toast.LENGTH_SHORT).show();
+        if (faces == 3)
+            (findViewById(R.id.btnTest)).setEnabled(true);
     }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, R.layout.activity_register_face);
-        boolean isSupported = FacialProcessing.isFeatureSupported(FacialProcessing.FEATURE_LIST.FEATURE_FACIAL_PROCESSING);
-        Toast.makeText(this, String.valueOf(isSupported), LENGTH_SHORT).show();
+        (findViewById(R.id.btnTest)).setEnabled(false);
+        (findViewById(R.id.btnAccept)).setEnabled(false);
+//        boolean isSupported = FacialProcessing.isFeatureSupported(FacialProcessing.FEATURE_LIST.FEATURE_FACIAL_PROCESSING);
+//        Toast.makeText(this, String.valueOf(isSupported), LENGTH_SHORT).show();
         processor = this.getFacialProcessing();
     }
 
@@ -163,5 +153,10 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
 
     public void test(View view) {
         getCamera().takePicture(shutterCallback, rawCallback, testCallback);
+    }
+
+    public void accept(View view) {
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 }

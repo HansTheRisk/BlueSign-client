@@ -17,17 +17,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/btnTest"
         android:onClick="test"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:text="Register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/button"
-        android:onClick="register"
-        android:layout_above="@+id/btnTest"
+        android:layout_below="@+id/btnRegister"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -38,17 +28,26 @@
         tools:layout_height="250dp"
         tools:layout_width="250dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerHorizontal="true" />
 
-    <ImageView
+    <Button
+        android:text="Register"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:srcCompat="@android:color/background_dark"
-        android:id="@+id/imageView"
-        android:layout_marginLeft="194dp"
-        android:layout_marginStart="194dp"
-        android:layout_above="@+id/btnTest"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnRegister"
+        android:onClick="register"
+        android:layout_below="@+id/photoPreview"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="50dp" />
+
+    <Button
+        android:text="Accept"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnAccept"
+        android:onClick="accept"
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

@@ -25,10 +25,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkSettings() {
-        if (getSharedPreferences("UserInfo", 0).contains("id"))
+        if (getSharedPreferences("UserInfo", 0).contains("id") && getSharedPreferences("UserInfo", 0).contains("pin")) {
             (findViewById(R.id.btnRegister)).setEnabled(false);
-        else
+        }
+        else {
             (findViewById(R.id.btnLogin)).setEnabled(false);
+            (findViewById(R.id.lblReset)).setEnabled(false);
+        }
     }
 
     public void login(View view) {

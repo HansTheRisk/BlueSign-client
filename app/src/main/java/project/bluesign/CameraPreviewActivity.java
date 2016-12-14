@@ -47,7 +47,6 @@ public class CameraPreviewActivity extends AppCompatActivity implements SurfaceH
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Toast.makeText(this, "Camera Active!", Toast.LENGTH_SHORT).show();
         }
     }
 
