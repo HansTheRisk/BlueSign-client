@@ -46,13 +46,14 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="numberSigned"
+        android:inputType="numberPassword"
         android:ems="10"
         android:id="@+id/txtPin"
         android:layout_below="@+id/lblPin"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:maxLength="4"/>
 
     <Button
         android:text="Accept"
@@ -74,5 +75,6 @@
         android:foregroundTint="@android:color/holo_blue_dark"
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:maxLength="9"/>
 </RelativeLayout>

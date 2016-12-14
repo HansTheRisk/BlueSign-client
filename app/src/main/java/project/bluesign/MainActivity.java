@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        getSharedPreferences("UserInfo", 0).edit().clear().commit(); REMOVE AFTER DEVELOPMENT;
         checkSettings();
     }
 
@@ -44,5 +45,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void reset(View view) {
         startActivity(new Intent(this, ResetActivity.class));
+        finish();
     }
 }

@@ -43,5 +43,7 @@
         android:id="@+id/txtPinReset"
         android:layout_below="@+id/lblNotice"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:singleLine="true"
+        android:maxLength="4"/>
 </RelativeLayout>

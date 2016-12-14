@@ -21,9 +21,16 @@ public class ResetActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(pin.getText().toString()))
             pin.setError("Don't forget about the pin!");
         else {
-            if (getSharedPreferences("UserInfo", 0).edit().clear().commit()) { //Verify user pin here!
-                Toast.makeText(this, "Settings reset", Toast.LENGTH_SHORT).show();
-                finish();
+            if(getSharedPreferences("UserInfo", 0).getString("pin", "pin").equals(pin.getText().toString()))
+            {
+                if (getSharedPreferences("UserInfo", 0).edit().clear().commit()) { //Verify user pin here!
+                    Toast.makeText(this, "Settings reset", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+            else {
+                pin.selectAll();
+                Toast.makeText(this, "Invalid PIN", Toast.LENGTH_SHORT).show();
             }
         }
     }

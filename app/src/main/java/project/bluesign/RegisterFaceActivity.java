@@ -142,8 +142,6 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
         super.onCreate(savedInstanceState, R.layout.activity_register_face);
         (findViewById(R.id.btnTest)).setEnabled(false);
         (findViewById(R.id.btnAccept)).setEnabled(false);
-//        boolean isSupported = FacialProcessing.isFeatureSupported(FacialProcessing.FEATURE_LIST.FEATURE_FACIAL_PROCESSING);
-//        Toast.makeText(this, String.valueOf(isSupported), LENGTH_SHORT).show();
         processor = this.getFacialProcessing();
     }
 
