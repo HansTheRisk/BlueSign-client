@@ -5,15 +5,13 @@ import android.content.SharedPreferences;
 
 import java.util.Arrays;
 
-import project.bluesign.service.ContextService;
-
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static project.bluesign.service.settings.Settings.ALBUM;
 import static project.bluesign.service.settings.Settings.ID;
 import static project.bluesign.service.settings.Settings.PIN;
 import static project.bluesign.service.settings.Settings.REGISTRATION_COMPLETE;
 
-public class SettingsService extends ContextService{
+public class SettingsService {
 
     private SharedPreferences preferences;
 
