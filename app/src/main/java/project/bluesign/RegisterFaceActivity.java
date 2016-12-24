@@ -21,21 +21,15 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
     private int faces = 0;
 
     Camera.ShutterCallback shutterCallback = new Camera.ShutterCallback() {
-
         public void onShutter() {
-
             Log.d("TAG", "onShutter'd");
-
         }
     };
 
 
     Camera.PictureCallback rawCallback = new Camera.PictureCallback() {
-
         public void onPictureTaken(byte[] data, Camera camera) {
-
             Log.d("TAG", "onPictureTaken - raw");
-
         }
     };
 
@@ -62,7 +56,6 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
     };
 
     Camera.PictureCallback testCallback = new Camera.PictureCallback() {
-
         public void onPictureTaken(byte[] data, Camera camera) {
             testPicture(data);
         }
@@ -157,7 +150,8 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
 
     public void accept(View view) {
         startActivity(new Intent(this, MainActivity.class));
-        SettingsService service = new SettingsService(this.getBaseContext());
+        SettingsService service = new SettingsService(getApplicationContext());
+        service.saveAlbum(processor.serializeRecogntionAlbum());
         service.registrationComplete(true);
         processor.release();
         finish();
