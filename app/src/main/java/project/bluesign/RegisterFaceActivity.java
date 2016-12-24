@@ -13,6 +13,8 @@ import com.qualcomm.snapdragon.sdk.face.FaceData;
 import com.qualcomm.snapdragon.sdk.face.FacialProcessing;
 import com.qualcomm.snapdragon.sdk.face.FacialProcessingConstants;
 
+import project.bluesign.service.settings.SettingsService;
+
 public class RegisterFaceActivity extends CameraPreviewActivity {
 
     private FacialProcessing processor;
@@ -155,6 +157,9 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
 
     public void accept(View view) {
         startActivity(new Intent(this, MainActivity.class));
+        SettingsService service = new SettingsService(this.getBaseContext());
+        service.registrationComplete(true);
+        processor.release();
         finish();
     }
 }

@@ -6,15 +6,21 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.qualcomm.snapdragon.sdk.face.FacialProcessing;
 
+import project.bluesign.service.settings.SettingsService;
+
 public class RegisterActivity extends AppCompatActivity {
+
+    SettingsService settingsService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        settingsService = new SettingsService(getApplicationContext());
     }
 
     public void accept(View view) {
@@ -28,29 +34,37 @@ public class RegisterActivity extends AppCompatActivity {
             id.setError("ID cannot be empty");
         else if (TextUtils.isEmpty(pin.getText().toString()))
             pin.setError("PIN cannot be empty");
-        else if(saveId(id.getText().toString()) && savePin(pin.getText().toString())) { //Insert ID and PIN check / API call
+        else if(verify(id.getText().toString(), pin.getText().toString())) {
+
+            saveId(id.getText().toString());
+            savePin(pin.getText().toString());
+
             if (FacialProcessing.isFeatureSupported(FacialProcessing.FEATURE_LIST.FEATURE_FACIAL_PROCESSING)) {
                 startActivity(new Intent(this, RegisterFaceActivity.class));
                 finish();
             }
             else {
+                settingsService.registrationComplete(true);
                 startActivity(new Intent(this, MainActivity.class));
                 finish();
             }
         }
+        else {
+            Toast.makeText(this, "ID or PIN not recognised!", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
-    private boolean verify() {
+    private boolean verify(String id, String pin) {
         // Placeholder for the API call
         return true;
     }
 
     private boolean saveId(String id) {
-        return getSharedPreferences("UserInfo", 0).edit().putString("id", id).commit();
+        return settingsService.saveId(id);
     }
 
     private boolean savePin(String pin) {
-        return getSharedPreferences("UserInfo", 0).edit().putString("pin", pin).commit();
+        return settingsService.savePin(pin);
     }
 }

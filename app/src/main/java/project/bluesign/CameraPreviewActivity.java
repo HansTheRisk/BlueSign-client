@@ -13,7 +13,6 @@ import com.qualcomm.snapdragon.sdk.face.FacialProcessing;
 import java.io.IOException;
 
 public class CameraPreviewActivity extends AppCompatActivity implements SurfaceHolder.Callback {
-    private FacialProcessing facialProcessing;
     private Camera camera;
     private SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
@@ -70,7 +69,7 @@ public class CameraPreviewActivity extends AppCompatActivity implements SurfaceH
     }
 
     public FacialProcessing getFacialProcessing() {
-        facialProcessing = (FacialProcessing) FacialProcessing.getInstance();
+        FacialProcessing facialProcessing = (FacialProcessing) FacialProcessing.getInstance();
         facialProcessing.setRecognitionConfidence(58);
         facialProcessing.setProcessingMode(FacialProcessing.FP_MODES.FP_MODE_STILL);
         return facialProcessing;

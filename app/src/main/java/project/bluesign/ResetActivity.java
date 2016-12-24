@@ -7,12 +7,17 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import project.bluesign.service.settings.SettingsService;
+
 public class ResetActivity extends AppCompatActivity {
+
+    private SettingsService settingsService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset);
+        settingsService = new SettingsService(getApplicationContext());
     }
 
     public void resetSettings(View view) {
@@ -21,9 +26,9 @@ public class ResetActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(pin.getText().toString()))
             pin.setError("Don't forget about the pin!");
         else {
-            if(getSharedPreferences("UserInfo", 0).getString("pin", "pin").equals(pin.getText().toString()))
+            if(settingsService.getPin().equals(pin.getText().toString()))
             {
-                if (getSharedPreferences("UserInfo", 0).edit().clear().commit()) { //Verify user pin here!
+                if (settingsService.resetSettings()) {
                     Toast.makeText(this, "Settings reset", Toast.LENGTH_SHORT).show();
                     finish();
                 }
