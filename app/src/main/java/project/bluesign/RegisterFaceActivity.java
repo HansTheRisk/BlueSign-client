@@ -36,22 +36,7 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
     Camera.PictureCallback registerCallback = new Camera.PictureCallback() {
 
         public void onPictureTaken(byte[] data, Camera camera) {
-
-//            FileOutputStream stream = null;
-//            File mediaStorageDir = new File(Environment.DIRECTORY_PICTURES);
-//            try {
-//                stream = new FileOutputStream(mediaStorageDir);
-//                stream.write(data);
-//                stream.close();
-//            }
-//            catch (FileNotFoundException e) {
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
             registerPicture(data);
-            // Use this image data for implementing the Facial Recognition features.
-
         }
     };
 
@@ -87,27 +72,7 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
 
     public void registerPicture(byte[] data){
 
-//        Camera.Parameters params = getCamera().getParameters();
-//        Camera.Size previewSize = params.getPreviewSize();
-////        ImageView
         Bitmap storedBitmap = BitmapFactory.decodeByteArray(data, 0, data.length, null);
-//
-//        FileOutputStream fos = null;
-//        try {
-//            fos = openFileOutput("test", Context.MODE_PRIVATE);
-//            storedBitmap.compress(Bitmap.CompressFormat.PNG, 85, fos);
-//            fos.close();
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        ImageView myImage = (ImageView) findViewById(R.id.imageView);
-//        myImage.setImageURI(Uri.parse(getFilesDir().getPath() + "/test.png"));
-
-
-
         processor.setBitmap(storedBitmap);
         if(processor.getFaceData() != null) {
             if(processor.getFaceData().length == 1) {
