@@ -50,4 +50,41 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/photoPreview"
+        android:layout_alignLeft="@+id/photoPreview"
+        android:layout_alignStart="@+id/photoPreview"
+        android:id="@+id/firstSample"
+        android:clickable="false" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/firstSample"
+        android:layout_toRightOf="@+id/firstSample"
+        android:layout_toEndOf="@+id/firstSample"
+        android:id="@+id/secondSample"
+        android:clickable="false" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/photoPreview"
+        android:layout_toRightOf="@+id/secondSample"
+        android:layout_toEndOf="@+id/secondSample"
+        android:id="@+id/thirdSample"
+        android:clickable="false" />
+
+    <CheckBox
+        android:text="Test OK"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/photoPreview"
+        android:layout_toRightOf="@+id/btnAccept"
+        android:layout_toEndOf="@+id/btnAccept"
+        android:id="@+id/test"
+        android:clickable="false" />
+
 </RelativeLayout>

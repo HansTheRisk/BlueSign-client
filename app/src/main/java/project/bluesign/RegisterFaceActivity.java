@@ -7,6 +7,8 @@ import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.qualcomm.snapdragon.sdk.face.FaceData;
@@ -18,7 +20,22 @@ import project.bluesign.service.settings.SettingsService;
 public class RegisterFaceActivity extends CameraPreviewActivity {
 
     private FacialProcessing processor;
+    private RadioButton firstSample;
+    private RadioButton secondSample;
+    private RadioButton thirdSample;
+    private CheckBox testOK;
     private int faces = 0;
+
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState, R.layout.activity_register_face);
+        firstSample = (RadioButton) findViewById(R.id.firstSample);
+        secondSample = (RadioButton) findViewById(R.id.secondSample);
+        thirdSample = (RadioButton) findViewById(R.id.thirdSample);
+        testOK = (CheckBox) findViewById(R.id.test);
+        (findViewById(R.id.btnTest)).setEnabled(false);
+        (findViewById(R.id.btnAccept)).setEnabled(false);
+        processor = this.getFacialProcessing();
+    }
 
     Camera.ShutterCallback shutterCallback = new Camera.ShutterCallback() {
         public void onShutter() {
@@ -58,6 +75,7 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
                 }
                 else {
                     Toast.makeText(this, "Face recognised!", Toast.LENGTH_SHORT).show();
+                    testOK.setChecked(true);
                     (findViewById(R.id.btnAccept)).setEnabled(true);
                 }
             }
@@ -75,7 +93,7 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
         Bitmap storedBitmap = BitmapFactory.decodeByteArray(data, 0, data.length, null);
         processor.setBitmap(storedBitmap);
         if(processor.getFaceData() != null) {
-            if(processor.getFaceData().length == 1) {
+            if(processor.getNumFaces() == 1) {
                 FaceData[] faceData = processor.getFaceData();
                 int faceId = faceData[0].getPersonId();
                 if (faceId == FacialProcessingConstants.FP_PERSON_NOT_REGISTERED) {
@@ -85,6 +103,17 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
                     processor.updatePerson(faceId, 0);
                 }
                 faces++;
+                switch(faces) {
+                    case 1:
+                        firstSample.setChecked(true);
+                        break;
+                    case 2:
+                        secondSample.setChecked(true);
+                        break;
+                    case 3:
+                        thirdSample.setChecked(true);
+                        break;
+                }
                 Toast.makeText(this, "Photo successfully added!", Toast.LENGTH_SHORT).show();
             }
             else {
@@ -96,13 +125,6 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
         }
         if (faces == 3)
             (findViewById(R.id.btnTest)).setEnabled(true);
-    }
-
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState, R.layout.activity_register_face);
-        (findViewById(R.id.btnTest)).setEnabled(false);
-        (findViewById(R.id.btnAccept)).setEnabled(false);
-        processor = this.getFacialProcessing();
     }
 
     public void register(View view) {

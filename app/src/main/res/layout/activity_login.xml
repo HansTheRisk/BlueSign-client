@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
@@ -10,14 +11,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="project.bluesign.LoginActivity">
 
-    <SurfaceView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/photoPreview"
-        tools:layout_height="250dp"
-        tools:layout_width="250dp" />
-
     <Button
         android:text="Sign In"
         android:layout_width="match_parent"
@@ -27,4 +20,22 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:onClick="signIn"/>
+
+    <SurfaceView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/photoPreview"
+        tools:layout_height="250dp"
+        tools:layout_width="250dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:elevation="0dp" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/detected"
+        android:layout_below="@+id/photoPreview"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

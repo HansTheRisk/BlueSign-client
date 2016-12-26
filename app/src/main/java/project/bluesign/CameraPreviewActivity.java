@@ -6,22 +6,23 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.Toast;
+import android.widget.RadioButton;
 
 import com.qualcomm.snapdragon.sdk.face.FacialProcessing;
-
 import java.io.IOException;
 
 public class CameraPreviewActivity extends AppCompatActivity implements SurfaceHolder.Callback {
     private Camera camera;
     private SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
+//    private RadioButton detectionCheckbox;
 
     protected void onCreate(Bundle savedInstanceState, int layout) {
         super.onCreate(savedInstanceState);
         setContentView(layout);
 
         surfaceView = (SurfaceView) findViewById(R.id.photoPreview);
+//        detectionCheckbox = (RadioButton) findViewById(R.id.detected);
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
@@ -29,16 +30,49 @@ public class CameraPreviewActivity extends AppCompatActivity implements SurfaceH
 
     private void startPreview() {
         boolean frontCamera = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FRONT);
+
         if (frontCamera) {
             camera = Camera.open(Camera.CameraInfo.CAMERA_FACING_FRONT);
             camera.setDisplayOrientation(90);
-            Camera.Parameters param;
 
-            param = camera.getParameters();
-            param.getSupportedPreviewSizes().get(1);
-            surfaceView.getHolder().setFixedSize(500, 500);
+//            camera.setPreviewCallback(new Camera.PreviewCallback() {
+//
+//                @Override
+//                public void onPreviewFrame(byte[] data, Camera camera) {
+//                    final byte[] imageData = data;
+//                    final Camera threadCamera = camera;
+//
+//                    final Runnable runnabe = new Runnable(){
+//                        public void run() {
+//                            Camera.Parameters parameters = threadCamera.getParameters();
+//                            Camera.Size size = parameters.getPreviewSize();
+//
+//                            FacialProcessing processor = getFacialProcessing();
+//                            processor.setFrame(imageData, size.width, size.height, true, FacialProcessing.PREVIEW_ROTATION_ANGLE.ROT_90);
+//                            if(processor.getNumFaces() == 1) {
+//                                detectionCheckbox.post(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        detectionCheckbox.setChecked(true);
+//                                    }
+//                                });
+//                            }
+//                            else {
+//                                detectionCheckbox.post(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        detectionCheckbox.setChecked(false);
+//                                    }
+//                                });
+//                            }
+//                            processor.release();
+//                        }
+//                    };
+//                    runnabe.run();
+//                }
+//            });
 
-            camera.setParameters(param);
+            surfaceView.getHolder().setFixedSize(800, 800);
 
             try {
                 camera.setPreviewDisplay(surfaceHolder);
@@ -73,10 +107,6 @@ public class CameraPreviewActivity extends AppCompatActivity implements SurfaceH
         facialProcessing.setRecognitionConfidence(58);
         facialProcessing.setProcessingMode(FacialProcessing.FP_MODES.FP_MODE_STILL);
         return facialProcessing;
-    }
-
-    public SurfaceHolder getSurfaceHolder() {
-        return surfaceHolder;
     }
 
     public Camera getCamera() {
