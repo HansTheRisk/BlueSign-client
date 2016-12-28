@@ -1,4 +1,4 @@
-package project.bluesign;
+package project.bluesign.activities;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +12,7 @@ import com.qualcomm.snapdragon.sdk.face.FaceData;
 import com.qualcomm.snapdragon.sdk.face.FacialProcessing;
 import com.qualcomm.snapdragon.sdk.face.FacialProcessingConstants;
 
+import project.bluesign.R;
 import project.bluesign.service.settings.SettingsService;
 
 public class FaceLoginActivity extends CameraPreviewActivity {
@@ -58,7 +59,7 @@ public class FaceLoginActivity extends CameraPreviewActivity {
                     failedAttempts++;
 
                     if (failedAttempts > 3) {
-                        // Alternative login
+                        // TODO Alternative login
                     }
                 }
                 else {

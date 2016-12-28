@@ -1,4 +1,4 @@
-package project.bluesign;
+package project.bluesign.activities;
 
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
@@ -9,6 +9,8 @@ import android.view.SurfaceView;
 
 import com.qualcomm.snapdragon.sdk.face.FacialProcessing;
 import java.io.IOException;
+
+import project.bluesign.R;
 
 public class CameraPreviewActivity extends AppCompatActivity implements SurfaceHolder.Callback {
     private Camera camera;

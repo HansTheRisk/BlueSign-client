@@ -1,4 +1,4 @@
-package project.bluesign;
+package project.bluesign.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,6 +18,7 @@ import com.qualcomm.snapdragon.sdk.face.FaceData;
 import com.qualcomm.snapdragon.sdk.face.FacialProcessing;
 import com.qualcomm.snapdragon.sdk.face.FacialProcessingConstants;
 
+import project.bluesign.R;
 import project.bluesign.service.settings.SettingsService;
 
 public class RegisterFaceActivity extends CameraPreviewActivity {
@@ -170,7 +171,7 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
 
     public void skip(View view) {
         AlertDialog.Builder skipAlert  = new AlertDialog.Builder(this);
-        skipAlert.setMessage("Are you sure you want to skip facial login setup?\n\n NOTICE: You will still be able to log in with your security PIN.");
+        skipAlert.setMessage("Are you sure you want to skip facial login setup?\n\nNOTICE: You will still be able to log in with your security PIN.");
         skipAlert.setTitle("Are you sure?");
         skipAlert.setCancelable(true);
         skipAlert.setPositiveButton("YES",

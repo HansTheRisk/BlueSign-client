@@ -1,4 +1,4 @@
-package project.bluesign;
+package project.bluesign.activities;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.qualcomm.snapdragon.sdk.face.FacialProcessing;
 
+import project.bluesign.R;
 import project.bluesign.service.settings.SettingsService;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, FaceLoginActivity.class));
         }
         else {
-            //start PIN login activity
+            startActivity(new Intent(this, PinLoginActivity.class));
         }
     }
 

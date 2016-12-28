@@ -1,13 +1,15 @@
-package project.bluesign;
+package project.bluesign.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class PinLogin extends AppCompatActivity {
+import project.bluesign.R;
+
+public class StatisticsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pin_login);
+        setContentView(R.layout.activity_statistics);
     }
 }

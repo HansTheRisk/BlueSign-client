@@ -1,4 +1,4 @@
-package project.bluesign;
+package project.bluesign.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.qualcomm.snapdragon.sdk.face.FacialProcessing;
 
+import project.bluesign.R;
 import project.bluesign.service.settings.SettingsService;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -57,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private boolean verify(String id, String pin) {
-        // Placeholder for the API call
+        // TODO Placeholder for the API call
         return true;
     }
 
