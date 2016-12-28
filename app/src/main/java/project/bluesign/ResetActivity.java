@@ -1,5 +1,6 @@
 package project.bluesign;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -30,6 +31,7 @@ public class ResetActivity extends AppCompatActivity {
             {
                 if (settingsService.resetSettings()) {
                     Toast.makeText(this, "Settings reset", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(this, MainActivity.class));
                     finish();
                 }
             }

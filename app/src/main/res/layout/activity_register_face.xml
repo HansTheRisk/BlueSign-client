@@ -9,82 +9,133 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="project.bluesign.LoginActivity">
+    tools:context="project.bluesign.FaceLoginActivity">
 
-    <Button
-        android:text="Test"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnTest"
-        android:onClick="test"
-        android:layout_below="@+id/btnRegister"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <SurfaceView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/photoPreview"
-        tools:layout_height="250dp"
-        tools:layout_width="250dp"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:text="Register"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnRegister"
-        android:onClick="register"
-        android:layout_below="@+id/photoPreview"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="50dp" />
+        android:layout_alignParentStart="true">
 
-    <Button
-        android:text="Accept"
-        android:layout_height="wrap_content"
-        android:id="@+id/btnAccept"
-        android:onClick="accept"
-        android:layout_width="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        <TextView
+            android:text="Skip ->"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblSkip"
+            android:onClick="skip"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:clickable="true"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_gravity="end"
+            android:textAlignment="viewEnd" />
 
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/photoPreview"
-        android:layout_alignLeft="@+id/photoPreview"
-        android:layout_alignStart="@+id/photoPreview"
-        android:id="@+id/firstSample"
-        android:clickable="false" />
+        <SurfaceView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/photoPreview"
+            tools:layout_height="250dp"
+            tools:layout_width="250dp"
+            android:layout_alignParentTop="true"
+            android:elevation="0dp"
+            android:layout_gravity="center_horizontal|top"/>
 
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/firstSample"
-        android:layout_toRightOf="@+id/firstSample"
-        android:layout_toEndOf="@+id/firstSample"
-        android:id="@+id/secondSample"
-        android:clickable="false" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="center"
+            android:gravity="center">
 
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/photoPreview"
-        android:layout_toRightOf="@+id/secondSample"
-        android:layout_toEndOf="@+id/secondSample"
-        android:id="@+id/thirdSample"
-        android:clickable="false" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/photoPreview"
+                android:layout_alignLeft="@+id/photoPreview"
+                android:layout_alignStart="@+id/photoPreview"
+                android:id="@+id/firstSample"
+                android:clickable="false" />
 
-    <CheckBox
-        android:text="Test OK"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/photoPreview"
-        android:layout_toRightOf="@+id/btnAccept"
-        android:layout_toEndOf="@+id/btnAccept"
-        android:id="@+id/test"
-        android:clickable="false" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/firstSample"
+                android:layout_toRightOf="@+id/firstSample"
+                android:layout_toEndOf="@+id/firstSample"
+                android:id="@+id/secondSample"
+                android:clickable="false" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/photoPreview"
+                android:layout_toRightOf="@+id/secondSample"
+                android:layout_toEndOf="@+id/secondSample"
+                android:id="@+id/thirdSample"
+                android:clickable="false" />
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:id="@+id/lblExtraFaces"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="35dp" />
+
+            <CheckBox
+                android:text="Test OK"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/photoPreview"
+                android:layout_toRightOf="@+id/btnAccept"
+                android:layout_toEndOf="@+id/btnAccept"
+                android:id="@+id/test"
+                android:clickable="false" />
+        </LinearLayout>
+
+        <Button
+            android:text="Register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnRegister"
+            android:onClick="register"
+            android:layout_below="@+id/photoPreview"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textAlignment="center"
+            android:layout_marginTop="35dp" />
+
+        <Button
+            android:text="Test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnTest"
+            android:onClick="test"
+            android:layout_alignTop="@+id/btnRegister"
+            android:layout_below="@+id/btnAccept"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:text="Accept"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnAccept"
+            android:onClick="accept"
+            android:layout_alignTop="@+id/btnTest"
+            android:layout_width="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:textAlignment="center"
+            android:layout_gravity="center"
+            android:gravity="center"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

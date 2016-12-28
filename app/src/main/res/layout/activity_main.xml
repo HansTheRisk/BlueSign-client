@@ -31,6 +31,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:onClick="reset"
                 android:textAlignment="viewEnd"
+                android:layout_gravity="end"
                 android:layout_weight="0.13" />
 
         <ImageView

@@ -1,5 +1,7 @@
 package project.bluesign;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qualcomm.snapdragon.sdk.face.FaceData;
@@ -20,10 +23,12 @@ import project.bluesign.service.settings.SettingsService;
 public class RegisterFaceActivity extends CameraPreviewActivity {
 
     private FacialProcessing processor;
+    SettingsService service;
     private RadioButton firstSample;
     private RadioButton secondSample;
     private RadioButton thirdSample;
     private CheckBox testOK;
+    private TextView extraFaces;
     private int faces = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +37,12 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
         secondSample = (RadioButton) findViewById(R.id.secondSample);
         thirdSample = (RadioButton) findViewById(R.id.thirdSample);
         testOK = (CheckBox) findViewById(R.id.test);
+        extraFaces = (TextView) findViewById(R.id.lblExtraFaces);
+
         (findViewById(R.id.btnTest)).setEnabled(false);
         (findViewById(R.id.btnAccept)).setEnabled(false);
         processor = this.getFacialProcessing();
+        service = new SettingsService(getApplicationContext());
     }
 
     Camera.ShutterCallback shutterCallback = new Camera.ShutterCallback() {
@@ -94,27 +102,24 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
         processor.setBitmap(storedBitmap);
         if(processor.getFaceData() != null) {
             if(processor.getNumFaces() == 1) {
+
                 FaceData[] faceData = processor.getFaceData();
                 int faceId = faceData[0].getPersonId();
-                if (faceId == FacialProcessingConstants.FP_PERSON_NOT_REGISTERED) {
+
+                if (faces == 0 && faceId == FacialProcessingConstants.FP_PERSON_NOT_REGISTERED) {
                     processor.addPerson(0);
+                    updateProgress();
+                }
+                else if (faces != 0 && faceId == FacialProcessingConstants.FP_PERSON_NOT_REGISTERED) {
+                    Toast.makeText(this, "Hey, that's not the same person!", Toast.LENGTH_SHORT).show();
+                }
+                else if (faces == 13) {
+                    Toast.makeText(this, "Hey, hey that's enough faces already!", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     processor.updatePerson(faceId, 0);
+                    updateProgress();
                 }
-                faces++;
-                switch(faces) {
-                    case 1:
-                        firstSample.setChecked(true);
-                        break;
-                    case 2:
-                        secondSample.setChecked(true);
-                        break;
-                    case 3:
-                        thirdSample.setChecked(true);
-                        break;
-                }
-                Toast.makeText(this, "Photo successfully added!", Toast.LENGTH_SHORT).show();
             }
             else {
                 Toast.makeText(this, "More than one face detected!", Toast.LENGTH_SHORT).show();
@@ -125,6 +130,25 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
         }
         if (faces == 3)
             (findViewById(R.id.btnTest)).setEnabled(true);
+    }
+
+    private void updateProgress() {
+        faces++;
+        switch(faces) {
+            case 1:
+                firstSample.setChecked(true);
+                break;
+            case 2:
+                secondSample.setChecked(true);
+                break;
+            case 3:
+                thirdSample.setChecked(true);
+                break;
+            default:
+                extraFaces.setText("+" + (faces - 3));
+                break;
+        }
+        Toast.makeText(this, "Photo successfully added!", Toast.LENGTH_SHORT).show();
     }
 
     public void register(View view) {
@@ -142,6 +166,30 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
         service.registrationComplete(true);
         processor.release();
         finish();
+    }
+
+    public void skip(View view) {
+        AlertDialog.Builder skipAlert  = new AlertDialog.Builder(this);
+        skipAlert.setMessage("Are you sure you want to skip facial login setup?\n\n NOTICE: You will still be able to log in with your security PIN.");
+        skipAlert.setTitle("Are you sure?");
+        skipAlert.setCancelable(true);
+        skipAlert.setPositiveButton("YES",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        service.facialRecognitionEnabled(false);
+                        service.registrationComplete(true);
+                        processor.release();
+                        finish();
+                    }
+                });
+        skipAlert.setNegativeButton("NO",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+        skipAlert.create().show();
     }
 
     @Override

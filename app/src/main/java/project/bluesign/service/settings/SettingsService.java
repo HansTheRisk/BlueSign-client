@@ -7,6 +7,7 @@ import java.util.Arrays;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static project.bluesign.service.settings.Settings.ALBUM;
+import static project.bluesign.service.settings.Settings.FACIAL_RECOGNITION_ENABLED;
 import static project.bluesign.service.settings.Settings.ID;
 import static project.bluesign.service.settings.Settings.PIN;
 import static project.bluesign.service.settings.Settings.REGISTRATION_COMPLETE;
@@ -61,6 +62,14 @@ public class SettingsService {
 
     public boolean resetSettings() {
         return preferences.edit().clear().commit();
+    }
+
+    public boolean facialRecognitionEnabled(Boolean enabled) {
+        return preferences.edit().putBoolean(FACIAL_RECOGNITION_ENABLED.toString(), enabled).commit();
+    }
+
+    public boolean isFacialRecognitionEnabled() {
+        return preferences.getBoolean(FACIAL_RECOGNITION_ENABLED.toString(), false);
     }
 
     public boolean isRegistrationComplete() {
