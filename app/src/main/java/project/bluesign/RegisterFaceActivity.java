@@ -143,4 +143,10 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
         processor.release();
         finish();
     }
+
+    @Override
+    public void onBackPressed() {
+        processor.release();
+        finish();
+    }
 }

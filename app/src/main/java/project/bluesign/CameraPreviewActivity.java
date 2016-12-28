@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.widget.RadioButton;
 
 import com.qualcomm.snapdragon.sdk.face.FacialProcessing;
 import java.io.IOException;
@@ -103,7 +102,7 @@ public class CameraPreviewActivity extends AppCompatActivity implements SurfaceH
     }
 
     public FacialProcessing getFacialProcessing() {
-        FacialProcessing facialProcessing = (FacialProcessing) FacialProcessing.getInstance();
+        FacialProcessing facialProcessing = FacialProcessing.getInstance();
         facialProcessing.setRecognitionConfidence(58);
         facialProcessing.setProcessingMode(FacialProcessing.FP_MODES.FP_MODE_STILL);
         return facialProcessing;

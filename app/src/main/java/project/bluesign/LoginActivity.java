@@ -17,6 +17,7 @@ import project.bluesign.service.settings.SettingsService;
 public class LoginActivity extends CameraPreviewActivity {
 
     private SettingsService settingsService;
+    private int failedAttempts = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, R.layout.activity_login);
@@ -54,6 +55,11 @@ public class LoginActivity extends CameraPreviewActivity {
                 int faceId = faceData[0].getPersonId();
                 if (faceId == FacialProcessingConstants.FP_PERSON_NOT_REGISTERED) {
                     Toast.makeText(this, "Face not recognised!", Toast.LENGTH_SHORT).show();
+                    failedAttempts++;
+
+                    if (failedAttempts > 3) {
+                        // Alternative login
+                    }
                 }
                 else {
                     Toast.makeText(this, "Face recognised!", Toast.LENGTH_SHORT).show();

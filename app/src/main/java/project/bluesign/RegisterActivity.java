@@ -24,7 +24,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void accept(View view) {
-        EditText id = ((EditText)findViewById(R.id.txtBoxId));
+        EditText id = ((EditText)findViewById(R.id.txtId));
         EditText pin = ((EditText)findViewById(R.id.txtPin));
 
         id.setError(null);
