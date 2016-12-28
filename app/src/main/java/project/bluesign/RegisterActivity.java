@@ -14,7 +14,7 @@ import project.bluesign.service.settings.SettingsService;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    SettingsService settingsService;
+    private SettingsService settingsService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
                 finish();
             }
             else {
+                settingsService.facialRecognitionEnabled(false);
                 settingsService.registrationComplete(true);
                 startActivity(new Intent(this, MainActivity.class));
                 finish();
