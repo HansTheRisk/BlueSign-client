@@ -94,8 +94,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/photoPreview"
-                android:layout_toRightOf="@+id/btnAccept"
-                android:layout_toEndOf="@+id/btnAccept"
+                android:layout_toRightOf="@+id/btnLogin"
+                android:layout_toEndOf="@+id/btnLogin"
                 android:id="@+id/test"
                 android:clickable="false" />
         </LinearLayout>
@@ -119,14 +119,14 @@
             android:id="@+id/btnTest"
             android:onClick="test"
             android:layout_alignTop="@+id/btnRegister"
-            android:layout_below="@+id/btnAccept"
+            android:layout_below="@+id/btnLogin"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
         <Button
             android:text="Accept"
             android:layout_height="wrap_content"
-            android:id="@+id/btnAccept"
+            android:id="@+id/btnLogin"
             android:onClick="accept"
             android:layout_alignTop="@+id/btnTest"
             android:layout_width="wrap_content"

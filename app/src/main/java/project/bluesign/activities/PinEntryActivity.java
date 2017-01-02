@@ -6,39 +6,38 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import project.bluesign.R;
 import project.bluesign.service.settings.SettingsService;
 
-public class ResetActivity extends AppCompatActivity {
+public class PinEntryActivity extends AppCompatActivity {
 
+    private Intent nextActivity;
     private SettingsService settingsService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reset);
+        setContentView(R.layout.activity_pin_login);
         settingsService = new SettingsService(getApplicationContext());
+        if (getIntent().getExtras() != null)
+            nextActivity = (Intent)getIntent().getExtras().get("intent");
     }
 
-    public void resetSettings(View view) {
-        EditText pin = ((EditText)findViewById(R.id.txtPinReset));
-        pin.setError(null);
+    public void checkPin(View view) {
+        EditText pin = ((EditText)findViewById(R.id.txtPin));
         if (TextUtils.isEmpty(pin.getText().toString()))
             pin.setError("Don't forget about the pin!");
         else {
             if(settingsService.isPinCorrect(pin.getText().toString()))
             {
-                if (settingsService.resetSettings()) {
-                    Toast.makeText(this, "Settings reset", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(this, MainActivity.class));
-                    finish();
+                if (nextActivity != null) {
+                    startActivity(nextActivity);
                 }
             }
             else {
                 pin.selectAll();
-                Toast.makeText(this, "Invalid PIN", Toast.LENGTH_SHORT).show();
+                pin.setError("Invalid pin");
             }
         }
     }

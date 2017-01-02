@@ -75,7 +75,7 @@
             android:textAlignment="center"
             android:gravity="center"
             android:layout_gravity="center"
-            android:id="@+id/btnAccept"
+            android:id="@+id/btnLogin"
             android:onClick="accept"
             android:layout_marginTop="100dp" />
 

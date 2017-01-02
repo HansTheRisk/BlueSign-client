@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import project.bluesign.R;
 
-public class LectureCodeActivity extends AppCompatActivity {
+public class LectureCodeActivity extends PinEntryActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

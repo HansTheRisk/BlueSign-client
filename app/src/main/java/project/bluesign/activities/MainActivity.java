@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         else {
             (findViewById(R.id.btnLogin)).setEnabled(false);
             (findViewById(R.id.lblReset)).setEnabled(false);
+            (findViewById(R.id.btnSettings)).setEnabled(false);
+            (findViewById(R.id.btnStatistics)).setEnabled(false);
         }
     }
 
@@ -46,12 +48,22 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, FaceLoginActivity.class));
         }
         else {
-            startActivity(new Intent(this, PinLoginActivity.class));
+            startActivity(new Intent(this, PinEntryActivity.class));
         }
     }
 
     public void register(View view) {
         startActivity(new Intent(this, RegisterActivity.class));
+    }
+
+    public void settings(View view) {
+        startActivity(new Intent(this, PinEntryActivity.class)
+                .putExtra("intent", new Intent(this, SettingsActivity.class)));
+    }
+
+    public void statistics(View view) {
+        startActivity(new Intent(this, PinEntryActivity.class)
+                .putExtra("intent", new Intent(this, StatisticsActivity.class)));
     }
 
     public void reset(View view) {

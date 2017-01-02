@@ -43,7 +43,7 @@ public class SettingsService {
     public byte[] loadAlbum() {
         String albumString = preferences.getString(ALBUM.toString(), null);
 
-        byte[] albumBytes = null;
+        byte[] albumBytes;
         if (albumString != null) {
             String[] splitStringArray = albumString.substring(1, albumString.length() - 1).split(", ");
 
@@ -74,5 +74,9 @@ public class SettingsService {
 
     public boolean isRegistrationComplete() {
         return preferences.getBoolean(REGISTRATION_COMPLETE.toString(), false);
+    }
+
+    public boolean isPinCorrect(String pin) {
+        return preferences.getString(PIN.toString(), "pin").equals(pin);
     }
 }
