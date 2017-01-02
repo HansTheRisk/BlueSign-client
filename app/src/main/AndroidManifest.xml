@@ -32,7 +32,7 @@
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.ResetActivity" />
         <activity android:name=".activities.RegisterFaceActivity" />
-        <activity android:name=".activities.PinEntryActivity" />
+        <activity android:name=".activities.PinLoginActivity" />
         <activity android:name=".activities.StatisticsActivity" />
         <activity android:name=".activities.LectureCodeActivity" />
         <activity android:name=".activities.SettingsActivity"></activity>

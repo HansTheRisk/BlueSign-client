@@ -10,7 +10,7 @@ import android.widget.EditText;
 import project.bluesign.R;
 import project.bluesign.service.settings.SettingsService;
 
-public class PinEntryActivity extends AppCompatActivity {
+public class PinLoginActivity extends AppCompatActivity {
 
     private Intent nextActivity;
     private SettingsService settingsService;

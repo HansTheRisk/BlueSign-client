@@ -1,5 +1,9 @@
 package project.bluesign.activities;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
@@ -21,7 +25,7 @@ public class FaceLoginActivity extends CameraPreviewActivity {
     private int failedAttempts = 0;
 
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState, R.layout.activity_login);
+        super.onCreate(savedInstanceState, R.layout.activity_face_login);
         settingsService = new SettingsService(this.getApplicationContext());
     }
 
@@ -56,14 +60,11 @@ public class FaceLoginActivity extends CameraPreviewActivity {
                 int faceId = faceData[0].getPersonId();
                 if (faceId == FacialProcessingConstants.FP_PERSON_NOT_REGISTERED) {
                     Toast.makeText(this, "Face not recognised!", Toast.LENGTH_SHORT).show();
-                    failedAttempts++;
-
-                    if (failedAttempts > 3) {
-                        // TODO Alternative login
-                    }
+                    problemWithFaces();
                 }
                 else {
                     Toast.makeText(this, "Face recognised!", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(this, LectureCodeActivity.class));
                 }
             }
             else {
@@ -72,8 +73,35 @@ public class FaceLoginActivity extends CameraPreviewActivity {
         }
         else {
             Toast.makeText(this, "No faces detected!", Toast.LENGTH_SHORT).show();
+            problemWithFaces();
         }
         processor.release();
+    }
+
+    private void problemWithFaces() {
+        failedAttempts++;
+        if (failedAttempts > 3) {
+            final Context context = getApplicationContext();
+            final AlertDialog.Builder alternateLogin  = new AlertDialog.Builder(this);
+            alternateLogin.setMessage("Would you like to try to log in with your Security PIN?");
+            alternateLogin.setTitle("Alternative login");
+            alternateLogin.setCancelable(false);
+            alternateLogin.setPositiveButton("YES",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent(context, PinLoginActivity.class)
+                                    .putExtra("intent", new Intent(context, LectureCodeActivity.class)));
+                            finish();
+                        }
+                    });
+            alternateLogin.setNegativeButton("NO",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            alternateLogin.create().show();
+        }
     }
 
     public void signIn(View view) {

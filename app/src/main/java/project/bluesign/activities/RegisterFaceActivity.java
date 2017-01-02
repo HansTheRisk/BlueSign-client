@@ -41,7 +41,7 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
         extraFaces = (TextView) findViewById(R.id.lblExtraFaces);
 
         (findViewById(R.id.btnTest)).setEnabled(false);
-        (findViewById(R.id.btnLogin)).setEnabled(false);
+        (findViewById(R.id.btnAccept)).setEnabled(false);
         processor = this.getFacialProcessing();
         service = new SettingsService(getApplicationContext());
     }
@@ -85,7 +85,7 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
                 else {
                     Toast.makeText(this, "Face recognised!", Toast.LENGTH_SHORT).show();
                     testOK.setChecked(true);
-                    (findViewById(R.id.btnLogin)).setEnabled(true);
+                    (findViewById(R.id.btnAccept)).setEnabled(true);
                 }
             }
             else {

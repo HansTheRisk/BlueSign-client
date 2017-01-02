@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
             (findViewById(R.id.btnRegister)).setEnabled(false);
         }
         else {
-            (findViewById(R.id.btnLogin)).setEnabled(false);
+            (findViewById(R.id.btnAccept)).setEnabled(false);
             (findViewById(R.id.lblReset)).setEnabled(false);
             (findViewById(R.id.btnSettings)).setEnabled(false);
             (findViewById(R.id.btnStatistics)).setEnabled(false);
@@ -48,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, FaceLoginActivity.class));
         }
         else {
-            startActivity(new Intent(this, PinEntryActivity.class));
+            startActivity(new Intent(this, PinLoginActivity.class)
+                    .putExtra("intent", new Intent(this, LectureCodeActivity.class)));
         }
     }
 
@@ -57,12 +58,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void settings(View view) {
-        startActivity(new Intent(this, PinEntryActivity.class)
+        startActivity(new Intent(this, PinLoginActivity.class)
                 .putExtra("intent", new Intent(this, SettingsActivity.class)));
     }
 
     public void statistics(View view) {
-        startActivity(new Intent(this, PinEntryActivity.class)
+        startActivity(new Intent(this, PinLoginActivity.class)
                 .putExtra("intent", new Intent(this, StatisticsActivity.class)));
     }
 

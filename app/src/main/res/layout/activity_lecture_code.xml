@@ -10,4 +10,50 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="project.bluesign.activities.LectureCodeActivity">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:text="Lecture Code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblCode"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:textAlignment="center" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberPassword"
+            android:ems="10"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:id="@+id/txtPin"
+            android:textStyle="normal|bold"
+            android:textSize="30sp"
+            android:textAllCaps="true"
+            android:singleLine="true"
+            android:textAlignment="center"
+            android:enabled="true"
+            android:editable="true"
+            android:numeric="integer"
+            android:password="true"
+            android:phoneNumber="false"
+            android:maxLength="4" />
+
+        <Button
+            android:text="Accept"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnAccept"
+            android:onClick="verifyCode"
+            android:layout_marginTop="75dp" />
+    </LinearLayout>
+
 </RelativeLayout>

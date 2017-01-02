@@ -47,7 +47,7 @@
             android:text="PIN:"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/lblPin"
+            android:id="@+id/lblCode"
             android:textSize="18sp"
             android:layout_below="@+id/txtId"
             android:layout_alignParentLeft="true"
@@ -60,7 +60,7 @@
             android:inputType="numberPassword"
             android:ems="10"
             android:id="@+id/txtPin"
-            android:layout_below="@+id/lblPin"
+            android:layout_below="@+id/lblCode"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginTop="20dp"
@@ -75,7 +75,7 @@
             android:textAlignment="center"
             android:gravity="center"
             android:layout_gravity="center"
-            android:id="@+id/btnLogin"
+            android:id="@+id/btnAccept"
             android:onClick="accept"
             android:layout_marginTop="100dp" />
 
