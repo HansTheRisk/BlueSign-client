@@ -15,6 +15,6 @@ public class LectureCodeActivity extends AppCompatActivity {
     }
 
     public void verifyCode(View view) {
-
+        //TODO api call
     }
 }
