@@ -1,6 +1,7 @@
 package project.bluesign.activities;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -30,6 +31,7 @@ public class StatisticsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_statistics);
         modulesTable = (TableLayout)findViewById(R.id.tblModules);
         historyTableLinearLayout = (LinearLayout) findViewById(R.id.tblHistoryLinearView);
@@ -39,7 +41,7 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
     private void loadModules() {
-        List<Module> modules = attendanceService.getUserAttendanceStatistics(settingsService.getId(), settingsService.getPin());
+        List<Module> modules = attendanceService.getUserAttendanceStatistics(settingsService.getId());
 
         TableRow titlesRow = new TableRow(this);
 
@@ -71,7 +73,7 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
     private void loadHistory() {
-        List<SignIn> signIns = attendanceService.getUserAttendanceHistory(settingsService.getId(), settingsService.getPin());
+        List<SignIn> signIns = attendanceService.getUserAttendanceHistory(settingsService.getId());
 
         TableRow titlesRow = (TableRow) findViewById(R.id.rwTitle);
 

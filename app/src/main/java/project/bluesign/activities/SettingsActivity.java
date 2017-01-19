@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +27,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_settings);
         context = getApplicationContext();
         settingsService = new SettingsService(context);
@@ -37,7 +39,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        if (settingsService.isFacialRecognitionEnabled() && settingsService.loadAlbum() == null) {
+        if ((settingsService.isFacialRecognitionEnabled() && settingsService.loadAlbum() == null) || (facialRecognitionSwitch.isChecked() && settingsService.loadAlbum() == null)) {
             AlertDialog.Builder backAlert  = new AlertDialog.Builder(this);
             backAlert.setMessage("You have enabled facial recognition login, but your face album seems to be empty.\n\nWould you like to complete face registration process?.");
             backAlert.setTitle("Facial recognition enabled");

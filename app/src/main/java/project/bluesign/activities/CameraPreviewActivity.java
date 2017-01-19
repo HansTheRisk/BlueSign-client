@@ -1,5 +1,6 @@
 package project.bluesign.activities;
 
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -16,12 +17,11 @@ public class CameraPreviewActivity extends AppCompatActivity implements SurfaceH
     private Camera camera;
     private SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
-//    private RadioButton detectionCheckbox;
 
     protected void onCreate(Bundle savedInstanceState, int layout) {
         super.onCreate(savedInstanceState);
         setContentView(layout);
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         surfaceView = (SurfaceView) findViewById(R.id.photoPreview);
 //        detectionCheckbox = (RadioButton) findViewById(R.id.detected);
         surfaceHolder = surfaceView.getHolder();

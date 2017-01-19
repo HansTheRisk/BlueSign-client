@@ -4,12 +4,14 @@ public class Module {
 
     private String name;
     private String code;
-    private ModuleMetrics metrics;
+    private int attended = 0;
+    private int total = 0;
 
-    public Module(String name, String code, ModuleMetrics metrics) {
+    public Module(String name, String code, int attended, int total) {
         this.name = name;
         this.code = code;
-        this.metrics = metrics;
+        this.attended = attended;
+        this.total = total;
     }
 
     public String getName() {
@@ -20,19 +22,27 @@ public class Module {
         this.name = name;
     }
 
-    public ModuleMetrics getMetrics() {
-        return metrics;
-    }
-
-    public void setMetrics(ModuleMetrics metrics) {
-        this.metrics = metrics;
-    }
-
     public String getCode() {
         return code;
     }
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getAttended() {
+        return attended;
+    }
+
+    public void setAttended(int attended) {
+        this.attended = attended;
     }
 }

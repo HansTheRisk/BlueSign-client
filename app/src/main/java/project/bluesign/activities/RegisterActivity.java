@@ -1,6 +1,7 @@
 package project.bluesign.activities;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -20,6 +21,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_register);
         settingsService = new SettingsService(getApplicationContext());
     }
@@ -58,8 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private boolean verify(String id, String pin) {
-        // TODO Placeholder for the API call
-        return true;
+        return settingsService.verifyIdAndPinCombination(id, pin);
     }
 
     private boolean saveId(String id) {
@@ -69,4 +70,6 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean savePin(String pin) {
         return settingsService.savePin(pin);
     }
+
+
 }

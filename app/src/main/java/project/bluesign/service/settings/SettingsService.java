@@ -2,8 +2,16 @@ package project.bluesign.service.settings;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.util.Log;
+
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
+
+import project.bluesign.domain.binary.BinaryObject;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static project.bluesign.service.settings.Settings.ALBUM;
@@ -15,6 +23,7 @@ import static project.bluesign.service.settings.Settings.REGISTRATION_COMPLETE;
 public class SettingsService {
 
     private SharedPreferences preferences;
+    private final String VALIDATION_ENDPOINT = "http://blusign.us-west-2.elasticbeanstalk.com/student";
 
     public SettingsService(Context context) {
         preferences = getDefaultSharedPreferences(context);
@@ -79,4 +88,33 @@ public class SettingsService {
     public boolean isPinCorrect(String pin) {
         return preferences.getString(PIN.toString(), "pin").equals(pin);
     }
+
+    public boolean verifyIdAndPinCombination(String id, String pin) {
+        try {
+            BinaryObject object = new HttpRequestTask().execute(id, pin).get();
+            return object.getValue();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private class HttpRequestTask extends AsyncTask<String, Void, BinaryObject> {
+        @Override
+        protected BinaryObject doInBackground(String... params) {
+            try {
+                final String url = VALIDATION_ENDPOINT + "/" + params[0] + "/" + params[1];
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+                BinaryObject binaryObject = restTemplate.getForObject(url, BinaryObject.class);
+                return binaryObject;
+            } catch (Exception e) {
+                Log.e("MainActivity", e.getMessage(), e);
+            }
+            return new BinaryObject();
+        }
+    }
+
 }

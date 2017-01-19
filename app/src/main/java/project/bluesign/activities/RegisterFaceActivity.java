@@ -3,6 +3,7 @@ package project.bluesign.activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
@@ -34,6 +35,7 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, R.layout.activity_register_face);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         firstSample = (RadioButton) findViewById(R.id.firstSample);
         secondSample = (RadioButton) findViewById(R.id.secondSample);
         thirdSample = (RadioButton) findViewById(R.id.thirdSample);
@@ -197,7 +199,6 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
     @Override
     public void onBackPressed() {
         processor.release();
-//        service.facialRecognitionEnabled(false);
         finish();
     }
 }
