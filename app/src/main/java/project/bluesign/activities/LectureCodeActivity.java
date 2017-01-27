@@ -32,12 +32,14 @@ import static project.bluesign.constant.GlobalVariables.STUDENT_ENDPOINT;
 public class LectureCodeActivity extends AppCompatActivity {
 
     private SettingsService settingsService;
+    private AttendanceService attendanceService;
     private final String ATTENDANCE_SIGN_IN = "signIn";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         settingsService = new SettingsService(getApplicationContext());
+        attendanceService = new AttendanceService();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_lecture_code);
     }
@@ -56,50 +58,7 @@ public class LectureCodeActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(code.getText().toString()))
             code.setError("Don't forget about the code!");
         else {
-            accept.setEnabled(false);
-            info.setTextColor(Color.YELLOW);
-            info.setText("Please wait...");
-            new SignInExecutor(info).execute(settingsService.getId(), settingsService.getPin(), code.getText().toString());
-        }
-    }
-
-    private class SignInExecutor extends AsyncTask<String, Void, Boolean> {
-
-        private Message message = new Message();
-        private TextView tv;
-        SignInExecutor(TextView tv) {
-            this.tv = tv;
-        }
-
-        @Override
-        protected Boolean doInBackground(String... params) {
-            try {
-                final String url = STUDENT_ENDPOINT + "/" + params[0] + "/" + ATTENDANCE_SIGN_IN + "/" + params[1];
-                HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
-                factory.setConnectTimeout(5000);
-                RestTemplate restTemplate = new RestTemplate(factory);
-                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-
-                ResponseEntity responseEntity = restTemplate.postForEntity(url, new AccessCode(Integer.valueOf(params[2])), null);
-                JSONObject object = new JSONObject((String)responseEntity.getBody());
-                message = new Message(object.getString("message"), String.valueOf(responseEntity.getStatusCode().value()));
-
-            } catch (HttpClientErrorException e) {
-                try {
-                    JSONObject object = new JSONObject(e.getResponseBodyAsString());
-                    message = new Message(object.getString("message"), String.valueOf(e.getStatusCode().value()));
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean res) {
-            tv.setText("TEST!");
+            attendanceService.signIn(info, accept, settingsService.getId(), settingsService.getPin(), code.getText().toString());
         }
     }
 }

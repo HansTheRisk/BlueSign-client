@@ -43,14 +43,14 @@ public class RegisterActivity extends AppCompatActivity {
             savePin(pin.getText().toString());
 
             if (FacialProcessing.isFeatureSupported(FacialProcessing.FEATURE_LIST.FEATURE_FACIAL_PROCESSING)) {
-                startActivity(new Intent(this, RegisterFaceActivity.class));
                 finish();
+                startActivity(new Intent(this, RegisterFaceActivity.class));
             }
             else {
+                finish();
                 settingsService.facialRecognitionEnabled(false);
                 settingsService.registrationComplete(true);
                 startActivity(new Intent(this, MainActivity.class));
-                finish();
             }
         }
         else {

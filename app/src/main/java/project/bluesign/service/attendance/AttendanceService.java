@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.HttpClientErrorException;
@@ -70,25 +69,22 @@ public class AttendanceService {
         @Override
         protected Message doInBackground(String... params) {
             try {
-                final String url = STUDENT_ENDPOINT + "/" + params[0] + "/" + ATTENDANCE_SIGN_IN + "/" + params[1];
+                final String url = STUDENT_ENDPOINT + "/" + params[0]  + "/" + params[1] + "/" + ATTENDANCE_SIGN_IN;
                 HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
                 factory.setConnectTimeout(5000);
                 RestTemplate restTemplate = new RestTemplate(factory);
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-                ResponseEntity responseEntity = restTemplate.postForEntity(url, new AccessCode(Integer.valueOf(params[2])), null);
-                JSONObject object = new JSONObject((String)responseEntity.getBody());
-                return new Message(object.getString("message"), String.valueOf(responseEntity.getStatusCode().value()));
-
+                Message message = restTemplate.postForObject(url, new AccessCode(Integer.valueOf(params[2])), Message.class);
+                message.setResponseCode(200);
+                return message;
             } catch (HttpClientErrorException e) {
                 try {
                     JSONObject object = new JSONObject(e.getResponseBodyAsString());
-                    return new Message(object.getString("message"), String.valueOf(e.getStatusCode().value()));
+                    return new Message(object.getString("message"), e.getStatusCode().value());
                 } catch (JSONException e1) {
                     return null;
                 }
-            } catch (JSONException e) {
-                return null;
             }
         }
 
@@ -100,10 +96,11 @@ public class AttendanceService {
             }
             else {
                 statusText.setTextColor(Color.RED);
-                if (message.getResponseCode().equals("200"))
+                if (message.getResponseCode() == 200)
                     statusText.setTextColor(Color.GREEN);
                 statusText.setText(message.getMessage());
             }
+            acceptButton.setEnabled(true);
         }
     }
 
