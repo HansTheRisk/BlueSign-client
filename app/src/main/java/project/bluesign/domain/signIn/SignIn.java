@@ -1,31 +1,33 @@
 package project.bluesign.domain.signIn;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import project.bluesign.domain.module.Module;
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SignIn {
-    private Date date;
-    private Module module;
+    private long dateTimestamp;
+    private String moduleCode;
 
-    public SignIn(Module module, Date date) {
-        this.module = module;
-        this.date = date;
+    public SignIn() {
     }
 
-    public Module getModule() {
-        return module;
+    public SignIn(String moduleCode, long dateTimestamp) {
+        this.moduleCode = moduleCode;
+        this.dateTimestamp = dateTimestamp;
     }
 
-    public void setModule(Module module) {
-        this.module = module;
+    public String getModuleCode() {
+        return moduleCode;
     }
 
-    public Date getDate() {
-        return date;
+    public void setModuleCode(String moduleCode) {
+        this.moduleCode = moduleCode;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public long getDateTimestamp() {
+        return dateTimestamp;
+    }
+
+    public void setDateTimestamp(long timestamp) {
+        this.dateTimestamp = timestamp;
     }
 }

@@ -26,6 +26,14 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textAlignment="center" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/lblInfo"
+            android:textStyle="normal|bold"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,7 +42,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"
-            android:id="@+id/txtPin"
+            android:id="@+id/txtCode"
             android:textStyle="normal|bold"
             android:textSize="30sp"
             android:textAllCaps="true"
@@ -54,6 +62,7 @@
             android:id="@+id/btnAccept"
             android:onClick="verifyCode"
             android:layout_marginTop="75dp" />
+
     </LinearLayout>
 
 </RelativeLayout>

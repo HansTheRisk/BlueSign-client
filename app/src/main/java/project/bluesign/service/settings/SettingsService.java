@@ -11,9 +11,11 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
+import project.bluesign.constant.GlobalVariables;
 import project.bluesign.domain.binary.BinaryObject;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
+import static project.bluesign.constant.GlobalVariables.STUDENT_ENDPOINT;
 import static project.bluesign.service.settings.Settings.ALBUM;
 import static project.bluesign.service.settings.Settings.FACIAL_RECOGNITION_ENABLED;
 import static project.bluesign.service.settings.Settings.ID;
@@ -23,7 +25,6 @@ import static project.bluesign.service.settings.Settings.REGISTRATION_COMPLETE;
 public class SettingsService {
 
     private SharedPreferences preferences;
-    private final String VALIDATION_ENDPOINT = "http://blusign.us-west-2.elasticbeanstalk.com/student";
 
     public SettingsService(Context context) {
         preferences = getDefaultSharedPreferences(context);
@@ -105,7 +106,7 @@ public class SettingsService {
         @Override
         protected BinaryObject doInBackground(String... params) {
             try {
-                final String url = VALIDATION_ENDPOINT + "/" + params[0] + "/" + params[1];
+                final String url = STUDENT_ENDPOINT + "/" + params[0] + "/" + params[1];
                 RestTemplate restTemplate = new RestTemplate();
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
                 BinaryObject binaryObject = restTemplate.getForObject(url, BinaryObject.class);

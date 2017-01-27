@@ -34,7 +34,9 @@ public class PinLoginActivity extends AppCompatActivity {
             if(settingsService.isPinCorrect(pin.getText().toString()))
             {
                 if (nextActivity != null) {
+                    finish();
                     startActivity(nextActivity);
+
                 }
             }
             else {
