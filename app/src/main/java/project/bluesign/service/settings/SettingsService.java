@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
@@ -13,6 +14,7 @@ import java.util.concurrent.ExecutionException;
 
 import project.bluesign.constant.GlobalVariables;
 import project.bluesign.domain.binary.BinaryObject;
+import project.bluesign.service.HttpsClient;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 import static project.bluesign.constant.GlobalVariables.STUDENT_ENDPOINT;
@@ -106,8 +108,10 @@ public class SettingsService {
         @Override
         protected BinaryObject doInBackground(String... params) {
             try {
+                HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+                RestTemplate restTemplate = new RestTemplate(requestFactory);
+                restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpsClient.getNewHttpClient()));
                 final String url = STUDENT_ENDPOINT + "/" + params[0] + "/" + params[1];
-                RestTemplate restTemplate = new RestTemplate();
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
                 BinaryObject binaryObject = restTemplate.getForObject(url, BinaryObject.class);
                 return binaryObject;

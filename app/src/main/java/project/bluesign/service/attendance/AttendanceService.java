@@ -27,6 +27,7 @@ import project.bluesign.domain.accessCode.AccessCode;
 import project.bluesign.domain.message.Message;
 import project.bluesign.domain.module.Module;
 import project.bluesign.domain.signIn.SignIn;
+import project.bluesign.service.HttpsClient;
 
 import static project.bluesign.constant.GlobalVariables.STUDENT_ENDPOINT;
 
@@ -70,9 +71,10 @@ public class AttendanceService {
         protected Message doInBackground(String... params) {
             try {
                 final String url = STUDENT_ENDPOINT + "/" + params[0]  + "/" + params[1] + "/" + ATTENDANCE_SIGN_IN;
-                HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
-                factory.setConnectTimeout(5000);
-                RestTemplate restTemplate = new RestTemplate(factory);
+                HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+                RestTemplate restTemplate = new RestTemplate();
+                requestFactory.setConnectTimeout(5000);
+                restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpsClient.getNewHttpClient()));
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
                 Message message = restTemplate.postForObject(url, new AccessCode(Integer.valueOf(params[2])), Message.class);
@@ -126,9 +128,10 @@ public class AttendanceService {
         protected List<Module> doInBackground(String... params) {
             try {
                 final String url = STUDENT_ENDPOINT + "/" + params[0] + "/" + STATISTICS_ENDPOINT;
-                HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
-                factory.setConnectTimeout(3000);
-                RestTemplate restTemplate = new RestTemplate(factory);
+                HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+                requestFactory.setConnectTimeout(3000);
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpsClient.getNewHttpClient()));
 
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
                 Module[] modules = restTemplate.getForObject(url, Module[].class);
@@ -145,7 +148,7 @@ public class AttendanceService {
                 TableRow tableRow = new TableRow(context);
                 TextView error = new TextView(context);
                 error.setTextColor(Color.RED);
-                error.setText("SOMETHING WENT WRONG!");
+                error.setText("Nothing to show!");
                 error.setGravity(Gravity.CENTER);
                 tableRow.addView(error);
                 table.addView(tableRow);
@@ -177,7 +180,7 @@ public class AttendanceService {
                         attendancePercentage.setTextColor(Color.GREEN);
                     }
 
-                    attendancePercentage.setText(String.valueOf(percent) + "%");
+                    attendancePercentage.setText(String.valueOf(percent.intValue()) + "%");
                     attendancePercentage.setGravity(Gravity.CENTER);
 
                     tableRow.addView(moduleCode, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 12f));
@@ -214,9 +217,11 @@ public class AttendanceService {
         protected List<SignIn> doInBackground(String... params) {
             try {
                 final String url = STUDENT_ENDPOINT + "/" + params[0] + "/" + ATTENDANCE_HISTORY_ENDPOINT;
-                HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
-                factory.setConnectTimeout(300);
-                RestTemplate restTemplate = new RestTemplate(factory);
+
+                HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+                requestFactory.setConnectTimeout(300);
+                RestTemplate restTemplate = new RestTemplate(requestFactory);
+                restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpsClient.getNewHttpClient()));
 
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
                 SignIn[] attendance = restTemplate.getForObject(url, SignIn[].class);
@@ -233,7 +238,7 @@ public class AttendanceService {
                 TableRow tableRow = new TableRow(context);
                 TextView error = new TextView(context);
                 error.setTextColor(Color.RED);
-                error.setText("SOMETHING WENT WRONG!");
+                error.setText("Nothing to show!");
                 error.setGravity(Gravity.CENTER);
                 tableRow.addView(error);
                 historyTableLinearLayout.addView(tableRow);
