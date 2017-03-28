@@ -37,12 +37,12 @@ public class AttendanceService {
     private final String ATTENDANCE_HISTORY_ENDPOINT = "history";
     private final String ATTENDANCE_SIGN_IN = "signIn";
 
-    public void loadUserAttendanceStatistics(Context uiContext, TextView statusTextView, TableLayout tableToLoadDateTo, String studentId) {
-        new StatisticsGetter(uiContext, statusTextView, tableToLoadDateTo).execute(studentId);
+    public void loadUserAttendanceStatistics(Context uiContext, TextView statusTextView, TableLayout tableToLoadDateTo, String studentId, String studentPin) {
+        new StatisticsGetter(uiContext, statusTextView, tableToLoadDateTo).execute(studentId, studentPin);
     }
 
-    public void loaduserAttendanceHistory(Context uiContext, TextView statusTextView, LinearLayout linearLayout, String studentId) {
-        new AttendanceHistoryGetter(uiContext, statusTextView, linearLayout).execute(studentId);
+    public void loaduserAttendanceHistory(Context uiContext, TextView statusTextView, LinearLayout linearLayout, String studentId, String studentPin) {
+        new AttendanceHistoryGetter(uiContext, statusTextView, linearLayout).execute(studentId, studentPin);
     }
 
     public void signIn(TextView statusText, Button acceptButton, String id, String pin, String accessCode) {
@@ -127,7 +127,7 @@ public class AttendanceService {
         @Override
         protected List<Module> doInBackground(String... params) {
             try {
-                final String url = STUDENT_ENDPOINT + "/" + params[0] + "/" + STATISTICS_ENDPOINT;
+                final String url = STUDENT_ENDPOINT + "/" + params[0] + "/" + params[1] + "/" + STATISTICS_ENDPOINT;
                 HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
                 requestFactory.setConnectTimeout(3000);
                 RestTemplate restTemplate = new RestTemplate();
@@ -216,7 +216,7 @@ public class AttendanceService {
         @Override
         protected List<SignIn> doInBackground(String... params) {
             try {
-                final String url = STUDENT_ENDPOINT + "/" + params[0] + "/" + ATTENDANCE_HISTORY_ENDPOINT;
+                final String url = STUDENT_ENDPOINT + "/" + params[0] + "/" + params[1] + "/" + ATTENDANCE_HISTORY_ENDPOINT;
 
                 HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
                 requestFactory.setConnectTimeout(300);

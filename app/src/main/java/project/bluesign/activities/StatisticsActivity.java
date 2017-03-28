@@ -54,7 +54,7 @@ public class StatisticsActivity extends AppCompatActivity {
             titlesRow.addView(title, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 16f));
         }
         modulesTable.addView(titlesRow);
-        attendanceService.loadUserAttendanceStatistics(getApplicationContext(), status, modulesTable, settingsService.getId());
+        attendanceService.loadUserAttendanceStatistics(getApplicationContext(), status, modulesTable, settingsService.getId(), settingsService.getPin());
 
     }
 
@@ -68,6 +68,6 @@ public class StatisticsActivity extends AppCompatActivity {
             title.setGravity(Gravity.LEFT);
             titlesRow.addView(title, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT,16f));
         }
-        attendanceService.loaduserAttendanceHistory(getApplicationContext(), status, historyTableLinearLayout, settingsService.getId());
+        attendanceService.loaduserAttendanceHistory(getApplicationContext(), status, historyTableLinearLayout, settingsService.getId(), settingsService.getPin());
     }
 }
