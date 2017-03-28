@@ -84,16 +84,19 @@ public class AttendanceService {
                 try {
                     JSONObject object = new JSONObject(e.getResponseBodyAsString());
                     return new Message(object.getString("message"), e.getStatusCode().value());
-                } catch (JSONException e1) {
+                } catch (Exception e1) {
                     return null;
                 }
+            }
+            catch (Exception e) {
+                return null;
             }
         }
 
         @Override
         protected void onPostExecute(Message message) {
             if (message == null) {
-                statusText.setTextColor(Color.GREEN);
+                statusText.setTextColor(Color.RED);
                 statusText.setText("Something went wrong! Try Again.");
             }
             else {
