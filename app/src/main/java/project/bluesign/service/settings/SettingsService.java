@@ -2,22 +2,10 @@ package project.bluesign.service.settings;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.util.Log;
-
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
-import java.util.concurrent.ExecutionException;
-
-import project.bluesign.constant.GlobalVariables;
-import project.bluesign.domain.binary.BinaryObject;
-import project.bluesign.service.HttpsClient;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
-import static project.bluesign.constant.GlobalVariables.STUDENT_ENDPOINT;
 import static project.bluesign.service.settings.Settings.ALBUM;
 import static project.bluesign.service.settings.Settings.FACIAL_RECOGNITION_ENABLED;
 import static project.bluesign.service.settings.Settings.ID;
@@ -91,35 +79,4 @@ public class SettingsService {
     public boolean isPinCorrect(String pin) {
         return preferences.getString(PIN.toString(), "pin").equals(pin);
     }
-
-    public boolean verifyIdAndPinCombination(String id, String pin) {
-        try {
-            BinaryObject object = new HttpRequestTask().execute(id, pin).get();
-            return object.getValue();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    private class HttpRequestTask extends AsyncTask<String, Void, BinaryObject> {
-        @Override
-        protected BinaryObject doInBackground(String... params) {
-            try {
-                HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
-                RestTemplate restTemplate = new RestTemplate(requestFactory);
-                restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpsClient.getNewHttpClient()));
-                final String url = STUDENT_ENDPOINT + "/" + params[0] + "/" + params[1];
-                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
-                BinaryObject binaryObject = restTemplate.getForObject(url, BinaryObject.class);
-                return binaryObject;
-            } catch (Exception e) {
-                Log.e("MainActivity", e.getMessage(), e);
-            }
-            return new BinaryObject();
-        }
-    }
-
 }

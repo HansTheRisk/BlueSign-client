@@ -67,6 +67,12 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initialise();
+    }
+
     private void initialise() {
 
         facialRecognitionSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

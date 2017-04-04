@@ -1,5 +1,6 @@
 package project.bluesign.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.ColorStateList;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -33,15 +35,26 @@ public class LectureCodeActivity extends AppCompatActivity {
 
     private SettingsService settingsService;
     private AttendanceService attendanceService;
-    private final String ATTENDANCE_SIGN_IN = "signIn";
+    private EditText code;
+    private TextView info;
+    private Button accept;
+    private InputMethodManager imm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         settingsService = new SettingsService(getApplicationContext());
         attendanceService = new AttendanceService();
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_lecture_code);
+
+        code = ((EditText)findViewById(R.id.txtCode));
+        info = ((TextView)findViewById(R.id.lblInfo));
+        accept = ((Button)findViewById(R.id.btnAccept));
+
+        code.requestFocus();
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
 
     @Override
@@ -51,14 +64,11 @@ public class LectureCodeActivity extends AppCompatActivity {
     }
 
     public void verifyCode(View view) {
-        EditText code = ((EditText)findViewById(R.id.txtCode));
-        TextView info = ((TextView)findViewById(R.id.lblInfo));
-        Button accept = ((Button)findViewById(R.id.btnAccept));
-
         if (TextUtils.isEmpty(code.getText().toString()))
             code.setError("Don't forget about the code!");
         else {
-            attendanceService.signIn(info, accept, settingsService.getId(), settingsService.getPin(), code.getText().toString());
+            imm.hideSoftInputFromWindow(code.getWindowToken(), 0);
+            attendanceService.signIn(info, accept, settingsService.getId(), settingsService.getPin(), code, imm);
         }
     }
 }

@@ -25,7 +25,7 @@ import project.bluesign.service.settings.SettingsService;
 public class RegisterFaceActivity extends CameraPreviewActivity {
 
     private FacialProcessing processor;
-    SettingsService service;
+    private SettingsService service;
     private RadioButton firstSample;
     private RadioButton secondSample;
     private RadioButton thirdSample;
@@ -173,27 +173,33 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
     }
 
     public void skip(View view) {
-        AlertDialog.Builder skipAlert  = new AlertDialog.Builder(this);
-        skipAlert.setMessage("Are you sure you want to skip facial login setup?\n\nNOTICE: You will still be able to log in with your security PIN.");
-        skipAlert.setTitle("Are you sure?");
-        skipAlert.setCancelable(true);
-        skipAlert.setPositiveButton("YES",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        service.facialRecognitionEnabled(false);
-                        service.registrationComplete(true);
-                        processor.release();
-                        finish();
-                    }
-                });
-        skipAlert.setNegativeButton("NO",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+        if(!service.isFacialRecognitionEnabled() && !service.isRegistrationComplete()) {
+            AlertDialog.Builder skipAlert  = new AlertDialog.Builder(this);
+            skipAlert.setMessage("Are you sure you want to skip facial login setup?\n\nNOTICE: You will still be able to log in with your security PIN.");
+            skipAlert.setTitle("Are you sure?");
+            skipAlert.setCancelable(true);
+            skipAlert.setPositiveButton("YES",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            service.facialRecognitionEnabled(false);
+                            service.registrationComplete(true);
+                            processor.release();
+                            finish();
+                        }
+                    });
+            skipAlert.setNegativeButton("NO",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
 
-        skipAlert.create().show();
+            skipAlert.create().show();
+        }
+        else {
+            processor.release();
+            finish();
+        }
     }
 
     @Override

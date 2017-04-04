@@ -117,7 +117,7 @@
         android:layout_alignParentBottom="true">
 
         <Button
-            android:text="Register"
+            android:text="Snap!"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btnRegister"
@@ -129,7 +129,7 @@
             android:layout_marginTop="35dp" />
 
         <Button
-            android:text="Test"
+            android:text="Test Recognition"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/btnTest"
@@ -140,7 +140,7 @@
             android:layout_alignParentStart="true" />
 
         <Button
-            android:text="Accept"
+            android:text="Finalise"
             android:layout_height="wrap_content"
             android:id="@+id/btnAccept"
             android:onClick="accept"
