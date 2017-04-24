@@ -23,7 +23,6 @@ public class CameraPreviewActivity extends AppCompatActivity implements SurfaceH
         setContentView(layout);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         surfaceView = (SurfaceView) findViewById(R.id.photoPreview);
-//        detectionCheckbox = (RadioButton) findViewById(R.id.detected);
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
         surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
@@ -35,44 +34,6 @@ public class CameraPreviewActivity extends AppCompatActivity implements SurfaceH
         if (frontCamera) {
             camera = Camera.open(Camera.CameraInfo.CAMERA_FACING_FRONT);
             camera.setDisplayOrientation(90);
-
-//            camera.setPreviewCallback(new Camera.PreviewCallback() {
-//
-//                @Override
-//                public void onPreviewFrame(byte[] data, Camera camera) {
-//                    final byte[] imageData = data;
-//                    final Camera threadCamera = camera;
-//
-//                    final Runnable runnabe = new Runnable(){
-//                        public void run() {
-//                            Camera.Parameters parameters = threadCamera.getParameters();
-//                            Camera.Size size = parameters.getPreviewSize();
-//
-//                            FacialProcessing processor = getFacialProcessing();
-//                            processor.setFrame(imageData, size.width, size.height, true, FacialProcessing.PREVIEW_ROTATION_ANGLE.ROT_90);
-//                            if(processor.getNumFaces() == 1) {
-//                                detectionCheckbox.post(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        detectionCheckbox.setChecked(true);
-//                                    }
-//                                });
-//                            }
-//                            else {
-//                                detectionCheckbox.post(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        detectionCheckbox.setChecked(false);
-//                                    }
-//                                });
-//                            }
-//                            processor.release();
-//                        }
-//                    };
-//                    runnabe.run();
-//                }
-//            });
-
             surfaceView.getHolder().setFixedSize(800, 800);
 
             try {

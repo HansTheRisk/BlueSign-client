@@ -81,16 +81,17 @@ public class AttendanceService {
         protected Message doInBackground(String... params) {
             try {
                 final String url = STUDENT_ENDPOINT + "/" + params[0]  + "/" + params[1] + "/" + ATTENDANCE_SIGN_IN;
-                HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
-                RestTemplate restTemplate = new RestTemplate();
+                HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(HttpsClient.getNewHttpClient());
                 requestFactory.setConnectTimeout(5000);
-                restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpsClient.getNewHttpClient()));
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.setRequestFactory(requestFactory);
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
                 Message message = restTemplate.postForObject(url, new AccessCode(Integer.valueOf(accessCode)), Message.class);
                 message.setResponseCode(200);
                 return message;
-            } catch (HttpClientErrorException e) {
+            }
+            catch (HttpClientErrorException e) {
                 try {
                     JSONObject object = new JSONObject(e.getResponseBodyAsString());
                     return new Message(object.getString("message"), e.getStatusCode().value());
@@ -151,10 +152,10 @@ public class AttendanceService {
         protected List<Module> doInBackground(String... params) {
             try {
                 final String url = STUDENT_ENDPOINT + "/" + params[0] + "/" + params[1] + "/" + STATISTICS_ENDPOINT;
-                HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+                HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(HttpsClient.getNewHttpClient());
                 requestFactory.setConnectTimeout(3000);
                 RestTemplate restTemplate = new RestTemplate();
-                restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpsClient.getNewHttpClient()));
+                restTemplate.setRequestFactory(requestFactory);
 
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
                 Module[] modules = restTemplate.getForObject(url, Module[].class);
@@ -241,10 +242,9 @@ public class AttendanceService {
             try {
                 final String url = STUDENT_ENDPOINT + "/" + params[0] + "/" + params[1] + "/" + ATTENDANCE_HISTORY_ENDPOINT;
 
-                HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+                HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory(HttpsClient.getNewHttpClient());
                 requestFactory.setConnectTimeout(300);
                 RestTemplate restTemplate = new RestTemplate(requestFactory);
-                restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(HttpsClient.getNewHttpClient()));
 
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
                 SignIn[] attendance = restTemplate.getForObject(url, SignIn[].class);

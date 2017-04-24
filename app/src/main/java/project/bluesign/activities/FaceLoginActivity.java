@@ -19,12 +19,18 @@ import com.qualcomm.snapdragon.sdk.face.FacialProcessingConstants;
 
 import project.bluesign.R;
 import project.bluesign.service.settings.SettingsService;
-
+/**
+ * This activity provides face login functionality.
+ */
 public class FaceLoginActivity extends CameraPreviewActivity {
 
     private SettingsService settingsService;
     private int failedAttempts = 0;
 
+    /**
+     * This method initialises the activity
+     * @param savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, R.layout.activity_face_login);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -50,6 +56,11 @@ public class FaceLoginActivity extends CameraPreviewActivity {
         }
     };
 
+    /**
+     * This method performs the comparison of the captured face image
+     * to the images in the album
+     * @param data
+     */
     public void compare(byte[] data) {
         Bitmap storedBitmap = BitmapFactory.decodeByteArray(data, 0, data.length, null);
         FacialProcessing processor = this.getFacialProcessing();
@@ -80,6 +91,10 @@ public class FaceLoginActivity extends CameraPreviewActivity {
         processor.release();
     }
 
+    /**
+     * This method counts the unsuccesfull face authentications
+     * and asks the user if he/she wants to use PIN instead
+     */
     private void problemWithFaces() {
         failedAttempts++;
         if (failedAttempts > 3) {
@@ -106,6 +121,9 @@ public class FaceLoginActivity extends CameraPreviewActivity {
         }
     }
 
+    /**
+     * Event handler for the sign in button
+     */
     public void signIn(View view) {
         getCamera().takePicture(shutterCallback, rawCallback, loginCallback);
     }

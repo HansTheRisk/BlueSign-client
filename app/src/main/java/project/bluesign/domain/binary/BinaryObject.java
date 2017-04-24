@@ -4,7 +4,7 @@ public class BinaryObject {
 
     private boolean value = false;
 
-    public BinaryObject() {};
+    public BinaryObject() {}
     public BinaryObject(boolean value) {
         this.value = value;
     }

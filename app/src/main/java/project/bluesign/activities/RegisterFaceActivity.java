@@ -21,7 +21,9 @@ import com.qualcomm.snapdragon.sdk.face.FacialProcessingConstants;
 
 import project.bluesign.R;
 import project.bluesign.service.settings.SettingsService;
-
+/**
+ * This activity provides face registration functionality.
+ */
 public class RegisterFaceActivity extends CameraPreviewActivity {
 
     private FacialProcessing processor;
@@ -33,6 +35,10 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
     private TextView extraFaces;
     private int faces = 0;
 
+    /**
+     * This method initialises the activity
+     * @param savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState, R.layout.activity_register_face);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -74,6 +80,10 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
         }
     };
 
+    /**
+     * This method tests the registered face images
+     * @param data
+     */
     public void testPicture(byte[] data) {
         Bitmap storedBitmap = BitmapFactory.decodeByteArray(data, 0, data.length, null);
         processor.setBitmap(storedBitmap);
@@ -99,6 +109,10 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
         }
     }
 
+    /**
+     * This method saves a face image from the camera
+     * @param data
+     */
     public void registerPicture(byte[] data){
 
         Bitmap storedBitmap = BitmapFactory.decodeByteArray(data, 0, data.length, null);
@@ -135,6 +149,9 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
             (findViewById(R.id.btnTest)).setEnabled(true);
     }
 
+    /**
+     * This updates the registration progress indicators
+     */
     private void updateProgress() {
         faces++;
         switch(faces) {
@@ -154,14 +171,23 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
         Toast.makeText(this, "Photo successfully added!", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Event handler for the button for taking pictures
+     */
     public void register(View view) {
         getCamera().takePicture(shutterCallback, rawCallback, registerCallback);
     }
 
+    /**
+     * Event handler for the button for testing pictures
+     */
     public void test(View view) {
         getCamera().takePicture(shutterCallback, rawCallback, testCallback);
     }
 
+    /**
+     * Event handler for the button for finalising the process
+     */
     public void accept(View view) {
         startActivity(new Intent(this, MainActivity.class));
         SettingsService service = new SettingsService(getApplicationContext());
@@ -172,6 +198,9 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
         finish();
     }
 
+    /**
+     * Event handler for the button for skipping the process
+     */
     public void skip(View view) {
         if(!service.isFacialRecognitionEnabled() && !service.isRegistrationComplete()) {
             AlertDialog.Builder skipAlert  = new AlertDialog.Builder(this);
@@ -202,6 +231,9 @@ public class RegisterFaceActivity extends CameraPreviewActivity {
         }
     }
 
+    /**
+     * Event handler for the back button
+     */
     @Override
     public void onBackPressed() {
         processor.release();
