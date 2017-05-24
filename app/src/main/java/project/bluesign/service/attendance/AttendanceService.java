@@ -3,6 +3,7 @@ package project.bluesign.service.attendance;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -26,6 +27,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import project.bluesign.activities.StatisticsActivity;
 import project.bluesign.domain.accessCode.AccessCode;
 import project.bluesign.domain.message.Message;
 import project.bluesign.domain.module.Module;
@@ -40,8 +42,8 @@ public class AttendanceService {
     private final String ATTENDANCE_HISTORY_ENDPOINT = "history";
     private final String ATTENDANCE_SIGN_IN = "signIn";
 
-    public void loadUserAttendanceStatistics(Context uiContext, TextView statusTextView, TableLayout tableToLoadDateTo, String studentId, String studentPin) {
-        new StatisticsGetter(uiContext, statusTextView, tableToLoadDateTo).execute(studentId, studentPin);
+    public void loadUserAttendanceStatistics(Context uiContext, TextView statusTextView, TableLayout tableToLoadDataTo, String studentId, String studentPin) {
+        new StatisticsGetter(uiContext, statusTextView, tableToLoadDataTo).execute(studentId, studentPin);
     }
 
     public void loaduserAttendanceHistory(Context uiContext, TextView statusTextView, LinearLayout linearLayout, String studentId, String studentPin) {
@@ -137,6 +139,7 @@ public class AttendanceService {
         private TextView statusText;
 
         StatisticsGetter(Context context, TextView statusText, TableLayout table) {
+
             this.statusText = statusText;
             this.table = table;
             this.context = context;
@@ -172,14 +175,23 @@ public class AttendanceService {
                 TableRow tableRow = new TableRow(context);
                 TextView error = new TextView(context);
                 error.setTextColor(Color.RED);
+                error.setText("Something went wrong!");
+                error.setGravity(Gravity.CENTER);
+                tableRow.addView(error);
+                table.addView(tableRow);
+            }
+            else if(modules.isEmpty()) {
+                TableRow tableRow = new TableRow(context);
+                TextView error = new TextView(context);
+                error.setTextColor(Color.BLUE);
                 error.setText("Nothing to show!");
                 error.setGravity(Gravity.CENTER);
                 tableRow.addView(error);
                 table.addView(tableRow);
-            }else {
+            }
+            else {
                 for (Module module : modules) {
                     TableRow tableRow = new TableRow(context);
-
                     TextView moduleCode = new TextView(context);
                     moduleCode.setTextColor(Color.BLACK);
                     moduleCode.setText(module.getModuleCode());
@@ -261,6 +273,15 @@ public class AttendanceService {
                 TableRow tableRow = new TableRow(context);
                 TextView error = new TextView(context);
                 error.setTextColor(Color.RED);
+                error.setText("Something went wrong!");
+                error.setGravity(Gravity.CENTER);
+                tableRow.addView(error);
+                historyTableLinearLayout.addView(tableRow);
+            }
+            else if(signIns.isEmpty()) {
+                TableRow tableRow = new TableRow(context);
+                TextView error = new TextView(context);
+                error.setTextColor(Color.BLUE);
                 error.setText("Nothing to show!");
                 error.setGravity(Gravity.CENTER);
                 tableRow.addView(error);
