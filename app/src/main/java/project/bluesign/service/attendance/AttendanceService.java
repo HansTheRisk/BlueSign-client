@@ -27,6 +27,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import project.bluesign.activities.LectureCodeActivity;
 import project.bluesign.activities.StatisticsActivity;
 import project.bluesign.domain.accessCode.AccessCode;
 import project.bluesign.domain.message.Message;
@@ -42,41 +43,38 @@ public class AttendanceService {
     private final String ATTENDANCE_HISTORY_ENDPOINT = "history";
     private final String ATTENDANCE_SIGN_IN = "signIn";
 
-    public void loadUserAttendanceStatistics(Context uiContext, TextView statusTextView, TableLayout tableToLoadDataTo, String studentId, String studentPin) {
-        new StatisticsGetter(uiContext, statusTextView, tableToLoadDataTo).execute(studentId, studentPin);
+    public void loadUserAttendanceStatistics(StatisticsActivity activity, String studentId, String studentPin) {
+        new StatisticsGetter(activity).execute(studentId, studentPin);
     }
 
-    public void loaduserAttendanceHistory(Context uiContext, TextView statusTextView, LinearLayout linearLayout, String studentId, String studentPin) {
-        new AttendanceHistoryGetter(uiContext, statusTextView, linearLayout).execute(studentId, studentPin);
+    public void loaduserAttendanceHistory(StatisticsActivity activity, String studentId, String studentPin) {
+        new AttendanceHistoryGetter(activity).execute(studentId, studentPin);
     }
 
-    public void signIn(TextView statusText, Button acceptButton, String id, String pin, EditText code, InputMethodManager imm) {
-        new SignInExecutor(statusText, acceptButton, code, imm).execute(id, pin);
-    }
+//    public void signIn(TextView statusText, Button acceptButton, String id, String pin, EditText code, InputMethodManager imm) {
+//        new SignInExecutor(statusText, acceptButton, code, imm).execute(id, pin);
+//    }
 
+    public void signIn(LectureCodeActivity activity, String id, String pin) {
+        new SignInExecutor(activity).execute(id, pin);
+    }
 
     private class SignInExecutor extends AsyncTask<String, Void, Message> {
 
-        private Button acceptButton;
-        private TextView statusText;
-        private EditText code;
-        private String accessCode = new String();
-        private InputMethodManager imm;
+        private LectureCodeActivity activity;
+        private String accessCode;
 
-        SignInExecutor(TextView statusText, Button acceptButton, EditText code, InputMethodManager imm) {
-            this.statusText = statusText;
-            this.acceptButton = acceptButton;
-            this.code = code;
-            this.imm = imm;
-            accessCode = code.getText().toString();
+        SignInExecutor(LectureCodeActivity activity) {
+            this.activity = activity;
+            accessCode = activity.getCode().getText().toString();
         }
 
         @Override
         protected void onPreExecute() {
-            code.setEnabled(false);
-            acceptButton.setEnabled(false);
-            statusText.setTextColor(Color.GREEN);
-            statusText.setText("Please wait...");
+            activity.getCode().setEnabled(false);
+            activity.getAccept().setEnabled(false);
+            activity.getInfo().setTextColor(Color.GREEN);
+            activity.getInfo().setText("Please wait...");
         }
 
         @Override
@@ -108,12 +106,16 @@ public class AttendanceService {
 
         @Override
         protected void onPostExecute(Message message) {
+
+            TextView statusText = activity.getInfo();
+            EditText code = activity.getCode();
+
             if (message == null) {
                 statusText.setTextColor(Color.RED);
                 statusText.setText("Something went wrong! Try Again.");
                 code.selectAll();
                 code.requestFocus();
-                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                activity.getImm().toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
             }
             else {
                 if (message.getResponseCode() == 200) {
@@ -123,32 +125,26 @@ public class AttendanceService {
                     statusText.setTextColor(Color.RED);
                     code.selectAll();
                     code.requestFocus();
-                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                    activity.getImm().toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
                 }
                 statusText.setText(message.getMessage());
             }
-            acceptButton.setEnabled(true);
+            activity.getAccept().setEnabled(true);
             code.setEnabled(true);
         }
     }
 
     private class StatisticsGetter extends AsyncTask<String, Void, List<Module>> {
 
-        private TableLayout table;
-        private Context context;
-        private TextView statusText;
+        private StatisticsActivity activity;
 
-        StatisticsGetter(Context context, TextView statusText, TableLayout table) {
-
-            this.statusText = statusText;
-            this.table = table;
-            this.context = context;
+        StatisticsGetter(StatisticsActivity activity) {
+            this.activity = activity;
         }
 
         @Override
         protected void onPreExecute() {
-            statusText.setTextColor(Color.GREEN);
-            statusText.setText("Please wait...");
+            activity.loadingInitiated();
         }
 
         @Override
@@ -171,6 +167,10 @@ public class AttendanceService {
 
         @Override
         protected void onPostExecute(List<Module> modules) {
+
+            TableLayout table = activity.getModulesTable();
+            Context context = activity.getApplicationContext();
+
             if (modules == null) {
                 TableRow tableRow = new TableRow(context);
                 TextView error = new TextView(context);
@@ -227,26 +227,21 @@ public class AttendanceService {
                     table.addView(tableRow);
                 }
             }
-            statusText.setText("Done!");
+            activity.moduleStatisticsLoaded();
         }
     }
 
     private class AttendanceHistoryGetter extends AsyncTask<String, Void, List<SignIn>> {
 
-        private LinearLayout historyTableLinearLayout;
-        private Context context;
-        private TextView statusText;
+        private StatisticsActivity activity;
 
-        AttendanceHistoryGetter(Context context, TextView statusText, LinearLayout historyTableLinearLayout) {
-            this.statusText = statusText;
-            this.historyTableLinearLayout = historyTableLinearLayout;
-            this.context = context;
+        AttendanceHistoryGetter(StatisticsActivity activity) {
+            this.activity = activity;
         }
 
         @Override
         protected void onPreExecute() {
-            statusText.setTextColor(Color.GREEN);
-            statusText.setText("Please wait...");
+            activity.loadingInitiated();
         }
 
         @Override
@@ -269,6 +264,10 @@ public class AttendanceService {
 
         @Override
         protected void onPostExecute(List<SignIn> signIns) {
+
+            LinearLayout historyTableLinearLayout = activity.getHistoryTable();
+            Context context = activity.getApplicationContext();
+
             if (signIns == null) {
                 TableRow tableRow = new TableRow(context);
                 TextView error = new TextView(context);
@@ -320,7 +319,7 @@ public class AttendanceService {
                     historyTableLinearLayout.addView(tableRow);
                 }
             }
-            statusText.setText("Done!");
+            activity.historyLoaded();
         }
     }
 }

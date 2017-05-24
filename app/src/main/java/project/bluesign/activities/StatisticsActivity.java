@@ -1,6 +1,7 @@
 package project.bluesign.activities;
 
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ public class StatisticsActivity extends AppCompatActivity {
     private TextView status;
     private String[] modulesTableColumnNames = {"Module code:", "Total:", "Attended:", "%:"};
     private String[] historyTableColumnNames = {"History:"};
+    private boolean moduleStatisticsLoaded = false;
+    private boolean historyLoaded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,7 @@ public class StatisticsActivity extends AppCompatActivity {
         attendanceService = new AttendanceService();
         settingsService = new SettingsService(StatisticsActivity.this);
         status = (TextView) findViewById(R.id.txtStatus);
+        status.setTextColor(Color.GREEN);
     }
 
     @Override
@@ -54,7 +58,7 @@ public class StatisticsActivity extends AppCompatActivity {
             titlesRow.addView(title, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 16f));
         }
         modulesTable.addView(titlesRow);
-        attendanceService.loadUserAttendanceStatistics(getApplicationContext(), status, modulesTable, settingsService.getId(), settingsService.getPin());
+        attendanceService.loadUserAttendanceStatistics(this, settingsService.getId(), settingsService.getPin());
 
     }
 
@@ -68,6 +72,34 @@ public class StatisticsActivity extends AppCompatActivity {
             title.setGravity(Gravity.LEFT);
             titlesRow.addView(title, new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT,16f));
         }
-        attendanceService.loaduserAttendanceHistory(getApplicationContext(), status, historyTableLinearLayout, settingsService.getId(), settingsService.getPin());
+        attendanceService.loaduserAttendanceHistory(this, settingsService.getId(), settingsService.getPin());
+    }
+
+    public TableLayout getModulesTable() {
+        return modulesTable;
+    }
+
+    public LinearLayout getHistoryTable() {
+        return historyTableLinearLayout;
+    }
+
+    public TextView getStatusTextView() {
+        return status;
+    }
+
+    public void moduleStatisticsLoaded() {
+        moduleStatisticsLoaded = true;
+        if(historyLoaded)
+            status.setText("Done!");
+    }
+
+    public void historyLoaded() {
+        historyLoaded = true;
+        if(moduleStatisticsLoaded)
+            status.setText("Done!");
+    }
+
+    public void loadingInitiated() {
+        status.setText("Please wait...");
     }
 }

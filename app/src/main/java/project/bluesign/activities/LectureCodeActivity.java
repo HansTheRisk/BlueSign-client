@@ -68,7 +68,23 @@ public class LectureCodeActivity extends AppCompatActivity {
             code.setError("Don't forget about the code!");
         else {
             imm.hideSoftInputFromWindow(code.getWindowToken(), 0);
-            attendanceService.signIn(info, accept, settingsService.getId(), settingsService.getPin(), code, imm);
+            attendanceService.signIn(this, settingsService.getId(), settingsService.getPin());
         }
+    }
+
+    public EditText getCode() {
+        return code;
+    }
+
+    public TextView getInfo() {
+        return info;
+    }
+
+    public Button getAccept() {
+        return accept;
+    }
+
+    public InputMethodManager getImm() {
+        return imm;
     }
 }
