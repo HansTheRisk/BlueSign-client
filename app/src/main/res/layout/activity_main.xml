@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -8,39 +9,105 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="project.bluesign.MainActivity">
+    tools:context="project.bluesign.activities.MainActivity">
 
-    <Button
-        android:text="Register"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="67dp"
-        android:id="@+id/btnRegister"
-        android:layout_alignTop="@+id/btnLogin"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:onClick="register"/>
+        android:layout_alignParentTop="true">
 
-    <Button
-        android:text="Login"
+        <TextView
+            android:text="Reset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:id="@+id/lblReset"
+            android:clickable="true"
+            android:textColor="@color/colorPrimaryDark"
+            android:onClick="reset"
+            android:textAlignment="viewEnd"
+            android:layout_gravity="end" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:id="@+id/logo"
+            android:src="@mipmap/neptune_transparent"
+            android:adjustViewBounds="true"
+            android:padding="0dp"
+            android:elevation="0dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:text="BluSign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/name"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            tools:textStyle="bold"
+            android:textSize="24sp" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="157dp"
-        android:id="@+id/btnLogin"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:onClick="login"/>
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
 
-    <TextView
-        android:text="Reset"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/lblReset"
-        android:clickable="true"
-        android:textColor="@color/colorPrimaryDark"
-        android:onClick="reset"/>
+        <Button
+            android:text="Login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnAccept"
+            android:onClick="login"
+            android:textAlignment="center"
+            android:layout_margin="5dp" />
+
+        <Button
+            android:text="Register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnRegister"
+            android:layout_alignTop="@+id/btnAccept"
+            android:onClick="register"
+            android:textAlignment="center"
+            android:layout_margin="5dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:text="Settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnSettings"
+                android:layout_alignTop="@+id/btnRegister"
+                android:onClick="settings"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" />
+
+            <Button
+                android:text="Statistics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnStatistics"
+                android:layout_alignTop="@+id/btnRegister"
+                android:onClick="statistics"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
 </RelativeLayout>
